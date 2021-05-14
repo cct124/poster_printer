@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <button @click="toMainMessage('msg')">Send Msg</button>
   </div>
 </template>
 
@@ -9,4 +9,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Home",
 });
+</script>
+<script setup lang="ts">
+import { VALIDCHANNELS } from "@/script/system/events/index";
+
+function toMainMessage(msg: string) {
+  window.ipcRenderer.send(VALIDCHANNELS.toMain, msg);
+}
 </script>

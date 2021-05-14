@@ -1,9 +1,10 @@
 "use strict";
 import path from "path";
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
+import { VALIDCHANNELS } from "@/script/system/events/index";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -37,6 +38,10 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
   }
+
+  ipcMain.on(VALIDCHANNELS.toMain, (event, msg) => {
+    console.log(event, msg);
+  });
 }
 
 // Quit when all windows are closed.
@@ -57,11 +62,15 @@ app.on("activate", () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", async () => {
+app.whenReady().then(async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
-      await installExtension(VUEJS_DEVTOOLS);
+      await installExtension(VUEJS3_DEVTOOLS)
+        .then((name) => {
+          console.log(`Added Extension:  ${name}`);
+        })
+        .catch((err) => console.log("An error occurred: ", err));
     } catch (e) {
       console.error("Vue Devtools failed to install:", e.toString());
     }
