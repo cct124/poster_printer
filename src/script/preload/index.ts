@@ -1,1 +1,3 @@
-import "@/script/preload/exposeIpcRendererMethods";
+import { exposeIpcRendererMethods } from "@/script/preload/exposeIpcRendererMethods";
+
+exposeIpcRendererMethods();

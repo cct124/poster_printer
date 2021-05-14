@@ -5,6 +5,7 @@ module.exports = {
   pluginOptions: {
     electronBuilder: {
       preload: "src/script/preload/index.ts",
+      mainProcessWatch: ["src/script"],
     },
   },
 };

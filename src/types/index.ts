@@ -42,7 +42,6 @@ interface IpcRenderer {
 
 declare global {
   interface Window {
-    MyNamespace: any;
     ipcRenderer: IpcRenderer;
   }
 }
