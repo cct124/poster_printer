@@ -1,9 +1,13 @@
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow, nativeTheme } from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 import windowManager from "@/script/system/window/manager";
 import WINDOW from "@/script/config/windows";
+import WindowMenu from "@/script/system/menu";
 
+/**
+ * app 生命周期
+ */
 export default class Lifecycle {
   constructor() {
     this.init();
@@ -58,6 +62,7 @@ export default class Lifecycle {
         }
       }
       windowManager.createWindow(WINDOW.MAIN);
+      new WindowMenu();
     });
 
     // Exit cleanly on request from parent process in development mode.

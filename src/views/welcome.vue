@@ -1,16 +1,11 @@
 <template>
-  <Frame />
-  <router-view />
+  <div class="welcome"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Frame from "@/components/Layout/Frame/index.vue";
 export default defineComponent({
-  components: {
-    Frame,
-  },
-  name: "APP",
+  name: "Welcome",
 });
 </script>
 <script setup lang="ts"></script>

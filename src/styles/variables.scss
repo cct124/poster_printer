@@ -1,0 +1,91 @@
+// Frame
+$frame-background: #535353;
+
+// Color Palette
+$black: #000;
+$white: #fff;
+$gray-0: #f9f9f9;
+$gray-1: #fcfcfc;
+$gray-2: #f6f6f6;
+$gray-3: #f2f3f5;
+$gray-4: #eeeeee;
+$gray-5: #e7e7e7;
+$gray-6: #cccccc;
+$gray-7: #999999;
+$gray-8: #606266;
+$gray-9: #323233;
+$gray-10: #303133;
+$light-red: #f15f5f;
+$crimson: #ff1919;
+$blue: #409eff;
+$blue-1: #d2eafe;
+$blue-2: #5b749a;
+$blue-3: #f3f9ff;
+$orange: #ff9800;
+$orange-dark: #e77e0f;
+$orange-light: #fffbe8;
+$green: #07c160;
+$vermilion: #e78748;
+$brown: #bc926c;
+$brown-1: #9a724d;
+$brown-2: #8f561e;
+
+// Gradient Colors
+$gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
+$gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
+
+// Component Colors
+$text-color: $gray-7;
+$active-color: $gray-2;
+$active-opacity: 0.7;
+$disabled-opacity: 0.5;
+$background-color: $gray-1;
+$background-color-light: #fafafa;
+$text-link-color: #576b95;
+$text-light-color: $blue;
+$line-color: $gray-3;
+
+// Padding
+$padding-base: 4px;
+$padding-xs: $padding-base * 2;
+$padding-sm: $padding-base * 3;
+$padding-md: $padding-base * 4;
+$padding-lg: $padding-base * 6;
+$padding-xl: $padding-base * 8;
+
+// Font
+$font-size-esm: 12px;
+$font-size-sm: 13px;
+$font-size-bs: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-elg: 20px;
+
+$font-weight-bold: 500;
+$line-height-xs: 14px;
+$line-height-sm: 18px;
+$line-height-md: 20px;
+$line-height-lg: 22px;
+$base-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+  Helvetica, Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB",
+  "Microsoft Yahei", sans-serif;
+$price-integer-font-family: Avenir-Heavy, PingFang SC, Helvetica Neue, Arial,
+  sans-serif;
+
+// Animation
+$animation-duration-base: 0.3s;
+$animation-duration-fast: 0.2s;
+$animation-timing-function-enter: ease-out;
+$animation-timing-function-leave: ease-in;
+
+// Border
+$border-color: $gray-9;
+$border-width-base: 1px;
+$border-radius-sm: 2px;
+$border-radius-md: 4px;
+$border-radius-lg: 8px;
+$border-radius-max: 999px;
+
+// Components Size
+$tabbar-height: 44px;
+$header-title-height: 40px;

@@ -77,3 +77,9 @@ declare global {
     }
   }
 }
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $ipcRenderer: IpcRenderer
+  }
+}

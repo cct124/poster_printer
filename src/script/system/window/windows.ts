@@ -52,6 +52,7 @@ export default new Windows([
       options: {
         width: 1280,
         height: 720,
+        frame: false,
         webPreferences: {
           // Required for Spectron testing
           enableRemoteModule: !!process.env.IS_TEST,
