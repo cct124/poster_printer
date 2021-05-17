@@ -1,4 +1,5 @@
 import { VALIDCHANNELS } from "@/script/system/events";
+import WINDOWS from "@/script/config/windows";
 
 interface IpcRenderer {
   /**
@@ -43,5 +44,36 @@ interface IpcRenderer {
 declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
+  }
+
+  module MainWindow {
+    /**
+     * 窗口配置
+     */
+    interface WindowConfig {
+      /**
+       * 窗口加载的 URL
+       */
+      loadURL: string;
+      /**
+       * 窗口配置
+       */
+      options: Electron.BrowserWindowConstructorOptions;
+      /**
+       * 窗口创建后执行此函数
+       */
+      ready?: () => void;
+    }
+
+    interface WindowMapValue {
+      /**
+       * 窗口枚举类型
+       */
+      type: WINDOWS;
+      /**
+       * window 实例
+       */
+      window: Electron.BrowserWindow;
+    }
   }
 }

@@ -1,38 +1,66 @@
-"use strict";
-import path from "path";
-import { app, BrowserWindow, ipcMain } from "electron";
+import { BrowserWindow } from "electron";
+import WINDOWS from "@/script/config/windows";
+import windows from "@/script/system/window/windows";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import { VALIDCHANNELS } from "@/script/system/events/index";
 
-export async function createWindow() {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    width: 1280,
-    height: 720,
-    webPreferences: {
-      // Required for Spectron testing
-      enableRemoteModule: !!process.env.IS_TEST,
+class WindowManager {
+  private windowMap: Map<number, MainWindow.WindowMapValue> = new Map();
+  private windowIdMap: Map<WINDOWS, number[]> = new Map();
 
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env
-        .ELECTRON_NODE_INTEGRATION as unknown as boolean,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      preload: path.join(app.getAppPath(), "preload.js"),
-    },
-  });
+  /**
+   * 创建 window 窗口
+   * @param key
+   * @returns
+   */
+  createWindow(key: WINDOWS) {
+    return new Promise<MainWindow.WindowMapValue | undefined>(
+      async (resolve, reject) => {
+        if (!windows.has(key)) return reject(null);
+        const windowConfig = windows.get(key)!;
+        const window = new BrowserWindow(windowConfig.options);
 
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
-    if (!process.env.IS_TEST) win.webContents.openDevTools();
-  } else {
-    createProtocol("app");
-    // Load the index.html when not in development
-    win.loadURL("app://./index.html");
+        if (process.env.WEBPACK_DEV_SERVER_URL) {
+          // Load the url of the dev server if in development mode
+          await window.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
+          if (!process.env.IS_TEST) window.webContents.openDevTools();
+        } else {
+          createProtocol("app");
+          // Load the index.html when not in development
+          window.loadURL(windowConfig.loadURL);
+        }
+
+        if (windowConfig.ready) windowConfig.ready();
+
+        this.windowMap.set(window.id, {
+          type: key,
+          window,
+        });
+
+        if (!this.windowIdMap.has(key)) this.windowIdMap.set(key, []);
+        this.windowIdMap.get(key)!.push(window.id);
+
+        window.once("ready-to-show", () => {
+          resolve(this.windowMap.get(window.id));
+        });
+      }
+    );
   }
 
-  ipcMain.on(VALIDCHANNELS.toMain, (event, msg) => {
-    console.log(event, msg);
-  });
+  get(key: number) {
+    return this.windowMap.get(key);
+  }
+
+  has(key: number) {
+    return this.windowMap.has(key);
+  }
+
+  getIds(key: WINDOWS) {
+    return this.windowIdMap.get(key);
+  }
+
+  hasIds(key: WINDOWS) {
+    return this.windowIdMap.has(key);
+  }
 }
+
+export default new WindowManager();
