@@ -9,7 +9,7 @@ export enum MENUS_ID {
   /**
    * 退出应用
    */
-  quit = "quit",
+  exit = "exit",
 }
 
 export const menus = [
@@ -25,7 +25,7 @@ export const menus = [
         type: "separator",
       },
       {
-        id: MENUS_ID.quit,
+        id: MENUS_ID.exit,
         label: "退出",
       },
     ],

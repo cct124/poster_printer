@@ -18,7 +18,11 @@
         </div>
         <div class="submenus z-100 popups-window-shadow" v-if="menu.active">
           <template v-for="(submenu, index) in menu.submenu" :key="index">
-            <div class="submenu" v-if="submenu.type !== 'separator'">
+            <div
+              class="submenu"
+              @click="clickSubmenu(submenu)"
+              v-if="submenu.type !== 'separator'"
+            >
               <div class="label pad-lr-20">{{ submenu.label }}</div>
             </div>
             <div class="separator" v-else></div>
@@ -33,6 +37,7 @@
 import { Options, Vue, setup } from "vue-class-component";
 import { ref } from "vue";
 import { menus } from "@/script/config/menu";
+import { VALIDCHANNELS } from "@/script/system/events";
 
 interface Menu {
   active: boolean;
@@ -47,12 +52,28 @@ export default class Frame extends Vue {
     ref(menus.map((menu) => ({ ...menu, active: false, bottom: "" })))
   );
 
+  /**
+   * 点击菜单
+   */
   activeMenu(menu: Menu): void {
     menu.active = !menu.active;
   }
 
+  /**
+   * 菜单失去焦点
+   */
   menuBlur(menu: Menu): void {
     menu.active = false;
+  }
+
+  /**
+   * 发送ipc消息到主进程执行动作
+   */
+  clickSubmenu(submenu: Menu): void {
+    this.$ipcRenderer.send(
+      VALIDCHANNELS.menu,
+      JSON.parse(JSON.stringify(submenu))
+    );
   }
 }
 </script>

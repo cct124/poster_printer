@@ -72,7 +72,7 @@ export default class Lifecycle {
           });
         }
       });
-      
+
       /**
        * 菜单监听
        */

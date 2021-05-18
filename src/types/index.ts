@@ -1,4 +1,5 @@
 import { VALIDCHANNELS } from "@/script/system/events";
+import { MENUS_ID } from "@/script/config/menu";
 import WINDOWS from "@/script/config/windows";
 
 interface IpcRenderer {
@@ -52,7 +53,7 @@ declare global {
   module MenuList {
     interface MenusConfig {
       label?: string;
-      id?: string;
+      id?: MENUS_ID;
       submenu?: MenusConfig[];
     }
   }
