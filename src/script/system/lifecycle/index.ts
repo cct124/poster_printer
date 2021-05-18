@@ -1,9 +1,10 @@
-import { app, protocol, BrowserWindow, nativeTheme } from "electron";
+import { app, protocol, BrowserWindow, globalShortcut } from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 import windowManager from "@/script/system/window/manager";
 import WINDOW from "@/script/config/windows";
-import WindowMenu from "@/script/system/menu";
+import windowMenu from "@/script/system/menu";
+import { VALIDCHANNELS } from "@/script/system/events";
 
 /**
  * app 生命周期
@@ -61,8 +62,21 @@ export default class Lifecycle {
           console.error("Vue Devtools failed to install:", e.toString());
         }
       }
-      windowManager.createWindow(WINDOW.MAIN);
-      new WindowMenu();
+      windowManager.createWindow(WINDOW.MAIN).then((window) => {
+        if (isDevelopment && !process.env.IS_TEST) {
+          /**
+           * 开发环境注册F5刷新页面快捷键
+           */
+          globalShortcut.register("F5", () => {
+            window!.window.webContents.reload();
+          });
+        }
+      });
+      
+      /**
+       * 菜单监听
+       */
+      windowMenu.onIpcMsg(VALIDCHANNELS.menu);
     });
 
     // Exit cleanly on request from parent process in development mode.

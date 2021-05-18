@@ -46,6 +46,17 @@ declare global {
     ipcRenderer: IpcRenderer;
   }
 
+  /**
+   * 应用菜单
+   */
+  module MenuList {
+    interface MenusConfig {
+      label?: string;
+      id?: string;
+      submenu?: MenusConfig[];
+    }
+  }
+
   module MainWindow {
     /**
      * 窗口配置
@@ -78,8 +89,8 @@ declare global {
   }
 }
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    $ipcRenderer: IpcRenderer
+    $ipcRenderer: IpcRenderer;
   }
 }

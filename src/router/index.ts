@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Index from "../views/index.vue";
+import Welcome from "../views/welcome.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Index",
-    component: Index,
+    name: "welcome",
+    component: Welcome,
   },
 ];
 

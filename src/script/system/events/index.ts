@@ -14,4 +14,8 @@ export enum VALIDCHANNELS {
    * 来自主进程的消息
    */
   fromMain = "fromMain",
+  /**
+   * 菜单向渲染进程发送消息
+   */
+  menu = "menu",
 }
