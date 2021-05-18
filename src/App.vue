@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Frame from "@/components/Layout/Frame/index.vue";
+import { Frame } from "@/components/Layout";
 export default defineComponent({
   components: {
     Frame,
