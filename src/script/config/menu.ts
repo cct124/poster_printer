@@ -10,6 +10,11 @@ export enum MENUS_ID {
    * 退出应用
    */
   exit = "exit",
+
+  /**
+   * 打开开发人员工具
+   */
+  devtools = "devtools",
 }
 
 export const menus = [
@@ -41,5 +46,15 @@ export const menus = [
   {
     id: "help",
     label: "帮助",
+  },
+  {
+    id: "debug",
+    label: "调试",
+    submenu: [
+      {
+        id: MENUS_ID.devtools,
+        label: "开发人员工具",
+      },
+    ],
   },
 ];
