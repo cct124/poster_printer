@@ -1,8 +1,5 @@
 /**
  * whitelist channels
- */
-
-/**
  * 有效的ipc频道
  */
 export enum VALIDCHANNELS {
@@ -18,4 +15,14 @@ export enum VALIDCHANNELS {
    * 菜单向渲染进程发送消息
    */
   menu = "menu",
+
+  /**
+   * 窗口控制按钮
+   */
+  windowConctrol = "windowConctrol",
+
+  /**
+   * 窗口最大最小化发生改变
+   */
+  imizeChange = "imizeChange",
 }

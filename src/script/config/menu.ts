@@ -30,4 +30,16 @@ export const menus = [
       },
     ],
   },
+  {
+    id: "edit",
+    label: "编辑",
+  },
+  {
+    id: "image",
+    label: "图像",
+  },
+  {
+    id: "help",
+    label: "帮助",
+  },
 ];

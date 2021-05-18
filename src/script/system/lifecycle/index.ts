@@ -4,6 +4,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 import windowManager from "@/script/system/window/manager";
 import WINDOW from "@/script/config/windows";
 import windowMenu from "@/script/system/menu";
+import { WindowConctrol } from "@/script/system/window/conctrol";
 import { VALIDCHANNELS } from "@/script/system/events";
 
 /**
@@ -77,6 +78,11 @@ export default class Lifecycle {
        * 菜单监听
        */
       windowMenu.onIpcMsg(VALIDCHANNELS.menu);
+
+      /**
+       * 窗口控制按钮绑定
+       */
+      new WindowConctrol();
     });
 
     // Exit cleanly on request from parent process in development mode.
