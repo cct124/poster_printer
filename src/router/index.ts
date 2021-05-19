@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "welcome",
     component: Welcome,
     meta: {
-      background: "#ccc",
+      background: "#323232",
     },
   },
 ];
@@ -15,6 +15,14 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+router.beforeEach((to) => {
+  if (to.meta && to.meta.background)
+    document.body.style.setProperty(
+      "--background-color",
+      to.meta.background as string
+    );
 });
 
 export default router;

@@ -12,6 +12,23 @@ export function exposeIpcRendererMethods() {
         ipcRenderer.send(channel, data);
       }
     },
+    get: (channel: VALIDCHANNELS, data: any) => {
+      return new Promise<any>(
+        (resolve, reject) => {
+          if (VALIDCHANNELS[channel]) {
+            ipcRenderer.send(channel, data);
+            ipcRenderer.once(channel, (event, args) =>
+              resolve({
+                event,
+                args,
+              })
+            );
+          } else {
+            reject(new Error("无效 channel"));
+          }
+        }
+      );
+    },
     on: (channel: VALIDCHANNELS, listener: Function) => {
       if (VALIDCHANNELS[channel]) {
         // Deliberately strip event as it includes `sender`

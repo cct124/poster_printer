@@ -40,11 +40,24 @@ interface IpcRenderer {
    * 删除所有侦听器，或指定通道的侦听器
    */
   removeAllListeners: (channel: VALIDCHANNELS) => void;
+  /**
+   * 通过`channel`将异步消息发送到主进程
+   *
+   * 返回 Promise
+   */
+  get: (channel: VALIDCHANNELS, data: any) => Promise<IPC.PromiseIpcInfo>;
 }
 
 declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
+  }
+
+  module IPC {
+    interface PromiseIpcInfo {
+      event: Electron.IpcRendererEvent;
+      args: any;
+    }
   }
 
   /**

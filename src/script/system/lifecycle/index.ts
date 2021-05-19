@@ -6,6 +6,8 @@ import WINDOW from "@/script/config/windows";
 import windowMenu from "@/script/system/menu";
 import { WindowConctrol } from "@/script/system/window/conctrol";
 import { VALIDCHANNELS } from "@/script/system/events";
+import { info } from "@/script/system/info";
+import { APP } from "@/script/config/app";
 
 /**
  * app 生命周期
@@ -28,6 +30,8 @@ export default class Lifecycle {
     protocol.registerSchemesAsPrivileged([
       { scheme: "app", privileges: { secure: true, standard: true } },
     ]);
+
+    app.setName(APP.name);
   }
 
   private ready() {
@@ -83,6 +87,8 @@ export default class Lifecycle {
        * 窗口控制按钮绑定
        */
       new WindowConctrol();
+
+      info.listener();
     });
 
     // Exit cleanly on request from parent process in development mode.

@@ -89,5 +89,8 @@
     "transform": {
       "^.+\\.vue$": "vue-jest"
     }
+  },
+  "build": {
+    "productName": "Poster Printer"
   }
 }

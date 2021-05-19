@@ -25,4 +25,9 @@ export enum VALIDCHANNELS {
    * 窗口最大最小化发生改变
    */
   imizeChange = "imizeChange",
+
+  /**
+   * 获取信息
+   */
+  info = "info",
 }
