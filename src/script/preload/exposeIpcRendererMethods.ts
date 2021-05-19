@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { VALIDCHANNELS } from "@/script/system/events";
+import { INFO } from "@/script/config/info";
 
 /**
  * Expose protected methods that allow the renderer process to use
@@ -13,21 +14,34 @@ export function exposeIpcRendererMethods() {
       }
     },
     get: (channel: VALIDCHANNELS, data: any) => {
-      return new Promise<any>(
-        (resolve, reject) => {
-          if (VALIDCHANNELS[channel]) {
-            ipcRenderer.send(channel, data);
-            ipcRenderer.once(channel, (event, args) =>
-              resolve({
-                event,
-                args,
-              })
-            );
-          } else {
-            reject(new Error("无效 channel"));
-          }
+      return new Promise<any>((resolve, reject) => {
+        if (VALIDCHANNELS[channel]) {
+          ipcRenderer.send(channel, data);
+          ipcRenderer.once(channel, (event, args) =>
+            resolve({
+              event,
+              args,
+            })
+          );
+        } else {
+          reject(new Error("无效 channel"));
         }
-      );
+      });
+    },
+    info: (channel: VALIDCHANNELS, id: INFO) => {
+      return new Promise<any>((resolve, reject) => {
+        if (VALIDCHANNELS[channel]) {
+          ipcRenderer.send(channel, id);
+          ipcRenderer.once(id, (event, args) =>
+            resolve({
+              event,
+              args,
+            })
+          );
+        } else {
+          reject(new Error("无效 channel"));
+        }
+      });
     },
     on: (channel: VALIDCHANNELS, listener: Function) => {
       if (VALIDCHANNELS[channel]) {

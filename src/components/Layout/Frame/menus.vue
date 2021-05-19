@@ -37,7 +37,7 @@
 <script lang="ts">
 import { Options, Vue, setup } from "vue-class-component";
 import { ref } from "vue";
-import { menus } from "@/script/config/menu";
+import { menus, MENUS_ID } from "@/script/config/menu";
 import { VALIDCHANNELS } from "@/script/system/events";
 
 interface Menu {
@@ -53,12 +53,7 @@ interface MenusEvent extends MouseEvent {
 
 @Options({
   created() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    document.addEventListener("click", (event: any) => {
-      if (!event.menus) {
-        this.closeAllSubmenu();
-      }
-    });
+    this.registered();
   },
 })
 export default class Menus extends Vue {
@@ -67,6 +62,19 @@ export default class Menus extends Vue {
   menus = setup(() =>
     ref(menus.map((menu) => ({ ...menu, active: false, bottom: "" })))
   );
+
+  registered(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    document.addEventListener("click", (event: any) => {
+      if (!event.menus) {
+        this.closeAllSubmenu();
+      }
+    });
+
+    this.$ipcRenderer.on(VALIDCHANNELS.windowBlur, () => {
+      this.closeAllSubmenu();
+    });
+  }
 
   /**
    * 点击菜单
@@ -90,10 +98,12 @@ export default class Menus extends Vue {
    * 发送ipc消息到主进程执行动作
    */
   clickSubmenu(submenu: Menu): void {
-    this.$ipcRenderer.send(
-      VALIDCHANNELS.menu,
-      JSON.parse(JSON.stringify(submenu))
-    );
+    if (MENUS_ID[submenu.id as MENUS_ID]) {
+      this.$ipcRenderer.send(
+        VALIDCHANNELS.menu,
+        JSON.parse(JSON.stringify(submenu))
+      );
+    }
 
     this.closeAllSubmenu();
   }

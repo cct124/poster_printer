@@ -1,6 +1,7 @@
 import { VALIDCHANNELS } from "@/script/system/events";
 import { MENUS_ID } from "@/script/config/menu";
 import WINDOWS from "@/script/config/windows";
+import { INFO } from "@/script/config/info";
 
 interface IpcRenderer {
   /**
@@ -43,9 +44,17 @@ interface IpcRenderer {
   /**
    * 通过`channel`将异步消息发送到主进程
    *
-   * 返回 Promise
+   * 返回 Promise 并携带传回的参
    */
-  get: (channel: VALIDCHANNELS, data: any) => Promise<IPC.PromiseIpcInfo>;
+  get: (channel: VALIDCHANNELS, data: any) => Promise<unknown>;
+  /**
+   * 通过`channel`将异步消息发送到主进程
+   *
+   * 返回 Promise 并携带传回的参
+   *
+   * @param id 将作为回程的 channel
+   */
+  info: (channel: VALIDCHANNELS, id: INFO) => Promise<IPC.PromiseIpcInfo>;
 }
 
 declare global {
@@ -87,7 +96,7 @@ declare global {
       /**
        * 窗口创建后执行此函数
        */
-      ready?: () => void;
+      ready?: (window: Electron.BrowserWindow) => void;
     }
 
     interface WindowMapValue {

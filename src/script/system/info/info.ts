@@ -19,11 +19,14 @@ export class Info {
 
   listener() {
     ipcMain.on(VALIDCHANNELS.info, (event, key: INFO) => {
+
+      console.log(process);
+      
       if (this.infoMap.has(key)) {
         const info = this.infoMap.get(key)!();
         if (windowManager.has(event.frameId)) {
           const window = windowManager.get(event.frameId)!.window;
-          window.webContents.send(VALIDCHANNELS.info, info);
+          window.webContents.send(key, info);
         }
       }
     });

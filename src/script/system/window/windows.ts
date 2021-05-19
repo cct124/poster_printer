@@ -1,6 +1,7 @@
 import { app } from "electron";
 import WINDOWS from "@/script/config/windows";
 import path from "path";
+import { VALIDCHANNELS } from "../events";
 
 /**
  * 窗口列表类
@@ -64,6 +65,17 @@ export default new Windows([
           contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
           preload: path.join(app.getAppPath(), "preload.js"),
         },
+      },
+      ready(window) {
+        window.on("maximize", () => {
+          window.webContents.send(VALIDCHANNELS.imizeChange, true);
+        });
+        window.on("unmaximize", () => {
+          window.webContents.send(VALIDCHANNELS.imizeChange, false);
+        });
+        window.on("blur", () => {
+          window.webContents.send(VALIDCHANNELS.windowBlur, "blur");
+        });
       },
     },
   ],

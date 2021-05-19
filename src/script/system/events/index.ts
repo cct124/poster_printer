@@ -30,4 +30,9 @@ export enum VALIDCHANNELS {
    * 获取信息
    */
   info = "info",
+
+  /**
+   * 当窗口失去焦点时触发
+   */
+  windowBlur = "windowBlur",
 }

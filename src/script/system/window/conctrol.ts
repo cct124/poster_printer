@@ -61,10 +61,10 @@ export class WindowConctrol {
      */
     if (window.isMaximized()) {
       window.restore();
-      window.webContents.send(VALIDCHANNELS.imizeChange, false);
+      // window.webContents.send(VALIDCHANNELS.imizeChange, false);
     } else {
       window.maximize();
-      window.webContents.send(VALIDCHANNELS.imizeChange, true);
+      // window.webContents.send(VALIDCHANNELS.imizeChange, true);
     }
   }
   /**

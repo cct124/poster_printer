@@ -17,13 +17,15 @@ class WindowManager {
       async (resolve, reject) => {
         if (!windows.has(key)) return reject(null);
         const windowConfig = windows.get(key)!;
-        
+
         const window = new BrowserWindow(windowConfig.options);
 
         this.windowMap.set(window.id, {
           type: key,
           window,
         });
+
+        if (windowConfig.ready) windowConfig.ready(window);
 
         if (process.env.WEBPACK_DEV_SERVER_URL) {
           // Load the url of the dev server if in development mode
@@ -34,8 +36,6 @@ class WindowManager {
           // Load the index.html when not in development
           window.loadURL(windowConfig.loadURL);
         }
-
-        if (windowConfig.ready) windowConfig.ready();
 
         if (!this.windowIdMap.has(key)) this.windowIdMap.set(key, []);
         this.windowIdMap.get(key)!.push(window.id);
