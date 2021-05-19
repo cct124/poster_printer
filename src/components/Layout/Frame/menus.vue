@@ -1,19 +1,22 @@
 <template>
-  <div class="menus ft-sm">
+  <div class="menus ft-sm z-100" @click="clickMenusArea">
     <div
       class="menu relative"
       v-for="(menu, index) in menus"
-      :tabindex="index"
       :key="index"
       @blur="menuBlur(menu)"
     >
-      <div class="label flex-center" @click="activeMenu(menu)">
+      <div
+        class="label flex-center"
+        @click="activeMenu(menu)"
+        @mouseover="mouseoverMenu(menu, menus)"
+      >
         <span class="text" :class="{ active: menu.active }">{{
           menu.label
         }}</span>
       </div>
       <div
-        class="submenus z-100 popups-window-shadow"
+        class="submenus popups-window-shadow"
         v-if="menu.submenu && menu.active"
       >
         <template v-for="(submenu, index) in menu.submenu" :key="index">
@@ -44,8 +47,23 @@ interface Menu {
   label: string;
 }
 
-@Options({})
+interface MenusEvent extends MouseEvent {
+  menus: boolean;
+}
+
+@Options({
+  created() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    document.addEventListener("click", (event: any) => {
+      if (!event.menus) {
+        this.closeAllSubmenu();
+      }
+    });
+  },
+})
 export default class Menus extends Vue {
+  submenu = false;
+
   menus = setup(() =>
     ref(menus.map((menu) => ({ ...menu, active: false, bottom: "" })))
   );
@@ -55,13 +73,17 @@ export default class Menus extends Vue {
    */
   activeMenu(menu: Menu): void {
     menu.active = !menu.active;
+    this.submenu = menu.active;
   }
 
   /**
-   * 菜单失去焦点
+   * 关闭所有子菜单
    */
-  menuBlur(menu: Menu): void {
-    menu.active = false;
+  closeAllSubmenu(): void {
+    this.menus.forEach((menu) => {
+      menu.active = false;
+    });
+    this.submenu = false;
   }
 
   /**
@@ -72,6 +94,23 @@ export default class Menus extends Vue {
       VALIDCHANNELS.menu,
       JSON.parse(JSON.stringify(submenu))
     );
+
+    this.closeAllSubmenu();
+  }
+
+  /**
+   * 鼠标移动事件
+   */
+  mouseoverMenu(menu: Menu, menus: Menu[]): void {
+    if (!menu.active && this.submenu) {
+      menus.forEach((item) => {
+        item.active = item.id === menu.id;
+      });
+    }
+  }
+
+  clickMenusArea(event: MenusEvent): void {
+    event.menus = true;
   }
 }
 </script>
@@ -104,7 +143,7 @@ export default class Menus extends Vue {
       left: 0;
       min-width: 180px;
       background: $frame-submenu-background;
-      padding: 5px 2px;
+      padding: 10px 2px;
       box-sizing: border-box;
 
       .submenu {

@@ -1,7 +1,13 @@
 @import "./variables.scss";
 @import "./public.scss";
 
-html, body, #app{
+body {
+  background-color: var(--background-color);
+}
+
+html,
+body,
+#app {
   width: 100vw;
   height: 100vh;
 }

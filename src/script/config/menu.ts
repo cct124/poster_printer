@@ -38,6 +38,16 @@ export const menus = [
   {
     id: "edit",
     label: "编辑",
+    submenu: [
+      {
+        id: "revoke",
+        label: "撤销",
+      },
+      {
+        id: "restore",
+        label: "恢复",
+      },
+    ],
   },
   {
     id: "image",
@@ -46,6 +56,12 @@ export const menus = [
   {
     id: "help",
     label: "帮助",
+    submenu: [
+      {
+        id: "about",
+        label: "关于",
+      },
+    ],
   },
   {
     id: "debug",

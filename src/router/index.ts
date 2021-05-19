@@ -6,6 +6,9 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "welcome",
     component: Welcome,
+    meta: {
+      background: "#ccc",
+    },
   },
 ];
 
