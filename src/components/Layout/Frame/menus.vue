@@ -1,5 +1,5 @@
 <template>
-  <div class="menus ft-sm z-100" @click="clickMenusArea">
+  <div class="menus ft-sm" @click="clickMenusArea">
     <div
       class="menu relative"
       v-for="(menu, index) in menus"
@@ -16,7 +16,7 @@
         }}</span>
       </div>
       <div
-        class="submenus popups-window-shadow"
+        class="submenus popups-window-shadow z-100"
         v-if="menu.submenu && menu.active"
       >
         <template v-for="(submenu, index) in menu.submenu" :key="index">
@@ -39,6 +39,8 @@ import { Options, Vue, setup } from "vue-class-component";
 import { ref } from "vue";
 import { menus, MENUS_ID } from "@/script/config/menu";
 import { VALIDCHANNELS } from "@/script/system/events";
+import store from "@/store";
+import { APP } from "@/store/config";
 
 interface Menu {
   active: boolean;
@@ -62,6 +64,11 @@ export default class Menus extends Vue {
   menus = setup(() =>
     ref(menus.map((menu) => ({ ...menu, active: false, bottom: "" })))
   );
+
+  /**
+   * 创建画布
+   */
+  createCanvas = (): void => store.commit(APP.createCanvas);
 
   registered(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,11 +105,19 @@ export default class Menus extends Vue {
    * 发送ipc消息到主进程执行动作
    */
   clickSubmenu(submenu: Menu): void {
-    if (MENUS_ID[submenu.id as MENUS_ID]) {
-      this.$ipcRenderer.send(
-        VALIDCHANNELS.menu,
-        JSON.parse(JSON.stringify(submenu))
-      );
+    switch (submenu.id) {
+      case MENUS_ID.create:
+        this.createCanvas();
+        break;
+
+      default:
+        if (MENUS_ID[submenu.id as MENUS_ID]) {
+          this.$ipcRenderer.send(
+            VALIDCHANNELS.menu,
+            JSON.parse(JSON.stringify(submenu))
+          );
+        }
+        break;
     }
 
     this.closeAllSubmenu();

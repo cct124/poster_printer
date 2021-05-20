@@ -51,7 +51,7 @@ export default new Windows([
     {
       loadURL: "app://./index.html",
       options: {
-        width: 1280,
+        width: 1440,
         height: 720,
         frame: false,
         webPreferences: {

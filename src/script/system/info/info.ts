@@ -19,9 +19,6 @@ export class Info {
 
   listener() {
     ipcMain.on(VALIDCHANNELS.info, (event, key: INFO) => {
-
-      console.log(process);
-      
       if (this.infoMap.has(key)) {
         const info = this.infoMap.get(key)!();
         if (windowManager.has(event.frameId)) {

@@ -3,6 +3,10 @@
  */
 export enum MENUS_ID {
   /**
+   * 新建画布
+   */
+  create = "create",
+  /**
    * 退出应用
    */
   exit = "exit",
@@ -19,7 +23,7 @@ export const menus = [
     label: "文件",
     submenu: [
       {
-        id: "create",
+        id: MENUS_ID.create,
         label: "新建",
       },
       {

@@ -24,7 +24,6 @@ export default class Frame extends Vue {}
 </script>
 <style lang="scss" scoped>
 .frame {
-  height: $frame-item-height;
   background: $frame-background;
   -webkit-app-region: drag;
 
