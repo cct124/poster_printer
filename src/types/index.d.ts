@@ -2,6 +2,7 @@ import { VALIDCHANNELS } from "@/script/system/events";
 import { MENUS_ID } from "@/script/config/menu";
 import WINDOWS from "@/script/config/windows";
 import { INFO } from "@/script/config/info";
+import { DefineComponent } from "vue";
 
 interface IpcRenderer {
   /**

@@ -7,6 +7,8 @@ export declare module AppStore {
     component: DefineComponent;
     meta: {
       title: string;
+      desc: string;
+      active: boolean;
     };
   }
 

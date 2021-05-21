@@ -32,7 +32,7 @@ $gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 $gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
 
 // Component Colors
-$text-color: $gray-7;
+$text-color: $gray-4;
 $active-color: $gray-2;
 $active-opacity: 0.7;
 $disabled-opacity: 0.5;
@@ -93,10 +93,18 @@ $frame-logo-size: 23px;
 $frame-background: #535353;
 $frame-submenu-background: #707070;
 $frame-submenu-active-background: #868791;
-$frame-text: $gray-4;
+$frame-text: $gray-5;
 $frame-item-hover: #474747;
 $frame-item-height: 35px;
 
+// Tabs
+$tabs-text-color: $gray-6;
+$tabs-text-hover-color: $gray-5;
+$tabs-text-active-color: $gray-4;
+$tabs-height: 28px;
+$tabs-background-color: #424242;
+$tabs-item-background-color: #535353;
+$tabs-item-close-background-color: #666666;
 // var
 body {
   --background-color: #323232;

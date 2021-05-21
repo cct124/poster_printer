@@ -5,9 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "Index",
-});
+import { Options, Vue } from "vue-class-component";
+@Options({})
+export default class Index extends Vue {}
 </script>
 <script setup lang="ts"></script>

@@ -18,7 +18,9 @@ export const App = {
         // eslint-disable-next-line
         component: Canvas as any,
         meta: {
-          title: `新建画布 ${index}`,
+          title: `新建画布 ${index + 1}`,
+          desc: `新建画布 ${index + 1}`,
+          active: false,
         },
       });
 
