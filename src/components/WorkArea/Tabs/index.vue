@@ -4,11 +4,13 @@
       class="tab pointer flex-center pad-l-10"
       v-for="tab in canvas"
       :key="tab.name"
+      :class="{ active: tab.active }"
+      @click="open(tab)"
     >
-      <div class="label ft-sm mar-r-5" :title="tab.meta.desc">
-        {{ tab.meta.title }}
+      <div class="label ft-sm mar-r-5" :title="tab.desc">
+        {{ tab.name }}
       </div>
-      <div class="close flex-center" title="关闭">
+      <div class="close flex-center" title="关闭" @click.stop="close(tab)">
         <SvgIcon iconClass="close" />
       </div>
     </div>
@@ -19,10 +21,19 @@
 import { AppStore } from "@/types/store/app";
 import { Options, Vue } from "vue-class-component";
 import store from "@/store";
+import { APP } from "@/store/config";
 
 @Options({})
 export default class Tabs extends Vue {
-  readonly canvas: AppStore.Route[] = store.getters.canvas;
+  readonly canvas: AppStore.Canvas[] = store.getters.canvas;
+
+  private open(tab: AppStore.Canvas) {
+    store.commit(APP.tabsActiveChange, tab.id);
+  }
+
+  private close(tab: AppStore.Canvas) {
+    store.commit(APP.destroyCanvas, tab.id);
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -40,19 +51,24 @@ export default class Tabs extends Vue {
 
   .tab {
     $mt: 4px;
+    $li: 1px;
     border-radius: 2px 2px 0 0;
     background-color: $tabs-item-background-color;
     height: $tabs-height - $mt;
     margin-top: $mt;
-    margin-bottom: 1px;
+    margin-bottom: $li;
     padding-right: 6px;
 
     &:not(:last-child) {
-      margin-right: 5px;
+      margin-right: $li;
+    }
+
+    &.active {
+      color: $tabs-text-active-color;
+      background-color: $tabs-item-active-background-color;
     }
 
     &:hover {
-      color: $tabs-text-hover-color;
       .close {
         opacity: 1;
       }

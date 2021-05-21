@@ -1,2 +1,3 @@
 import Tabs from "./Tabs/index.vue";
-export { Tabs };
+import Canvas from "./Canvas/index.vue";
+export { Tabs, Canvas };

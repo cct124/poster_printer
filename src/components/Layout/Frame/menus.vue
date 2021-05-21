@@ -68,9 +68,9 @@ export default class Menus extends Vue {
   /**
    * 创建画布
    */
-  createCanvas = (): void => store.commit(APP.createCanvas);
+  private createCanvas = () => store.commit(APP.createCanvas);
 
-  registered(): void {
+  private registered() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     document.addEventListener("click", (event: any) => {
       if (!event.menus) {
@@ -86,7 +86,7 @@ export default class Menus extends Vue {
   /**
    * 点击菜单
    */
-  activeMenu(menu: Menu): void {
+  private activeMenu(menu: Menu) {
     menu.active = !menu.active;
     this.submenu = menu.active;
   }
@@ -94,7 +94,7 @@ export default class Menus extends Vue {
   /**
    * 关闭所有子菜单
    */
-  closeAllSubmenu(): void {
+  private closeAllSubmenu() {
     this.menus.forEach((menu) => {
       menu.active = false;
     });
@@ -104,7 +104,7 @@ export default class Menus extends Vue {
   /**
    * 发送ipc消息到主进程执行动作
    */
-  clickSubmenu(submenu: Menu): void {
+  private clickSubmenu(submenu: Menu) {
     switch (submenu.id) {
       case MENUS_ID.create:
         this.createCanvas();
@@ -126,7 +126,7 @@ export default class Menus extends Vue {
   /**
    * 鼠标移动事件
    */
-  mouseoverMenu(menu: Menu, menus: Menu[]): void {
+  private mouseoverMenu(menu: Menu, menus: Menu[]) {
     if (!menu.active && this.submenu) {
       menus.forEach((item) => {
         item.active = item.id === menu.id;
@@ -134,7 +134,7 @@ export default class Menus extends Vue {
     }
   }
 
-  clickMenusArea(event: MenusEvent): void {
+  private clickMenusArea(event: MenusEvent) {
     event.menus = true;
   }
 }

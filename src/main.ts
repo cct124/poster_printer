@@ -12,6 +12,4 @@ app.config.globalProperties = {
   $ipcRenderer: window.ipcRenderer,
 };
 
-console.log(store);
-
 app.component("SvgIcon", SvgIcon).use(store).use(router).mount("#app");

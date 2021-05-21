@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { App } from "./modules/app";
+import { App } from "./modules/app/index";
 import getters from "./getters";
 
 export default createStore({

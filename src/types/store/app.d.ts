@@ -1,18 +1,21 @@
 import { DefineComponent } from "vue";
 
 export declare module AppStore {
-  interface Route {
-    path: string;
+  interface Canvas {
+    id: number;
     name: string;
-    component: DefineComponent;
-    meta: {
-      title: string;
-      desc: string;
-      active: boolean;
-    };
+    desc: string;
+    active: boolean;
   }
 
   interface State {
-    canvas: Route[];
+    canvas: Canvas[];
+    destroyCanvas: Canvas[];
+    activeCanvasHistory: Set<number>;
+  }
+
+  interface TabsActiveChange {
+    name: string;
+    active: boolean;
   }
 }

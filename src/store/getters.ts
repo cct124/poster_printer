@@ -5,5 +5,9 @@ interface StoreState {
 }
 
 export default {
-  canvas: (state: StoreState): AppStore.Route[] => state.App.canvas,
+  canvas: (state: StoreState): AppStore.Canvas[] => state.App.canvas,
+  currentCanvas: (state: StoreState): AppStore.Canvas[] =>
+    state.App.canvas.filter((tab) => tab.active),
+  destroyCanvas: (state: StoreState): AppStore.Canvas[] =>
+    state.App.destroyCanvas,
 };

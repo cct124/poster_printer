@@ -1,20 +1,22 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Welcome from "../views/welcome.vue";
-import Index from "../views/index.vue";
+import Welcome from "../views/Welcome.vue";
+import WorkArea from "../views/WorkArea.vue";
+import { beforeEach } from "./beforeEach";
+import { ROUTER } from "./config";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "welcome",
+    name: ROUTER.welcome,
     component: Welcome,
     meta: {
       background: "#323232",
     },
   },
   {
-    path: "/index",
-    name: "Index",
-    component: Index,
+    path: "/work-area",
+    name: ROUTER.workArea,
+    component: WorkArea,
     children: [],
   },
 ];
@@ -24,12 +26,6 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
-  if (to.meta && to.meta.background)
-    document.body.style.setProperty(
-      "--background-color",
-      to.meta.background as string
-    );
-});
+beforeEach(router);
 
 export default router;
