@@ -32,9 +32,12 @@ export const tabsConctrol = {
     if (state.activeCanvasHistory.has(id)) state.activeCanvasHistory.delete(id);
     const history = [...state.activeCanvasHistory];
     const historyId = history[history.length - 1];
-    if (historyId !== undefined)
+    if (historyId !== undefined) {
       // eslint-disable-next-line
       (this as any).commit(APP.tabsActiveChange, historyId);
+    } else {
+      router.push({ name: ROUTER.welcome });
+    }
   },
   [APP.currentTabsActive](state: AppStore.State): AppStore.Canvas | undefined {
     return state.canvas.find((tab) => tab.active);

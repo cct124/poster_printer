@@ -10,7 +10,6 @@ import { Options, Vue } from "vue-class-component";
 
 @Options({
   created() {
-    this.index = this.$route.name;
     console.log("created " + this.index);
   },
   unmounted() {
