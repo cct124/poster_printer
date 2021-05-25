@@ -11,7 +11,7 @@
         {{ tab.name }}
       </div>
       <div class="close flex-center" title="关闭" @click.stop="close(tab)">
-        <SvgIcon iconClass="close" />
+        <SvgIcon svg="close" />
       </div>
     </div>
   </div>
@@ -38,8 +38,9 @@ export default class Tabs extends Vue {
 </script>
 <style lang="scss" scoped>
 .tabs {
+  $li: 1px;
   box-sizing: border-box;
-  padding: 0 5px;
+  padding: 0 $li * 2;
   min-width: 100%;
   color: $tabs-text-color;
   height: $tabs-height;
@@ -51,7 +52,6 @@ export default class Tabs extends Vue {
 
   .tab {
     $mt: 4px;
-    $li: 1px;
     border-radius: 2px 2px 0 0;
     background-color: $tabs-item-background-color;
     height: $tabs-height - $mt;

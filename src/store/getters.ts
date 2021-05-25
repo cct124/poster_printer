@@ -10,4 +10,5 @@ export default {
     state.App.canvas.filter((tab) => tab.active),
   destroyCanvas: (state: StoreState): AppStore.Canvas[] =>
     state.App.destroyCanvas,
+  tools: (state: StoreState): AppStore.Tool[] => state.App.tools,
 };

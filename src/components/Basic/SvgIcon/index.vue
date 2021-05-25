@@ -17,7 +17,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "SvgIcon",
   props: {
-    iconClass: {
+    svg: {
       type: String,
       required: true,
     },
@@ -28,10 +28,10 @@ export default defineComponent({
   },
   computed: {
     isExternal(): boolean {
-      return isExternal(this.iconClass);
+      return isExternal(this.svg);
     },
     iconName(): string {
-      return `#icon-${this.iconClass}`;
+      return `#icon-${this.svg}`;
     },
     svgClass(): string {
       if (this.className) {
@@ -43,8 +43,8 @@ export default defineComponent({
     // eslint-disable-next-line
     styleExternalIcon(): any {
       return {
-        mask: `url(${this.iconClass}) no-repeat 50% 50%`,
-        "-webkit-mask": `url(${this.iconClass}) no-repeat 50% 50%`,
+        mask: `url(${this.svg}) no-repeat 50% 50%`,
+        "-webkit-mask": `url(${this.svg}) no-repeat 50% 50%`,
       };
     },
   },

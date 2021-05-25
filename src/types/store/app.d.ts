@@ -8,10 +8,17 @@ export declare module AppStore {
     active: boolean;
   }
 
+  interface Tool {
+    name: string;
+    icon: string;
+    active: boolean;
+  }
+
   interface State {
     canvas: Canvas[];
     destroyCanvas: Canvas[];
     activeCanvasHistory: Set<number>;
+    tools: Tool[];
   }
 
   interface TabsActiveChange {

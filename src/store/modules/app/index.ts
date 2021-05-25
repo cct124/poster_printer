@@ -1,12 +1,10 @@
 import { tabsConctrol } from "./tabsConctrol";
 export const App = {
   state: {
-    canvas: [],
-    destroyCanvas: [],
-    activeCanvasHistory: new Set(),
+    ...tabsConctrol.state,
   },
   mutations: {
-    ...tabsConctrol,
+    ...tabsConctrol.mutations,
   },
   actions: {},
 };

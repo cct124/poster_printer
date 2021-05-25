@@ -93,8 +93,9 @@ $frame-logo-size: 23px;
 $frame-background: #535353;
 $frame-submenu-background: #707070;
 $frame-submenu-active-background: #868791;
-$frame-text: $gray-5;
+$frame-text: $gray-4;
 $frame-item-hover: #474747;
+$frame-item-hover-close: #b41727;
 $frame-item-height: 35px;
 
 // Tabs
@@ -106,6 +107,13 @@ $tabs-background-color: #424242;
 $tabs-item-background-color: #535353;
 $tabs-item-active-background-color: #686868;
 $tabs-item-close-background-color: #666666;
+
+// Tools
+$tools-width: 35px;
+$tools-background-color: #535353;
+$tools-svg-color: #dddddd;
+$tools-active-item: #383838;
+
 // var
 body {
   --background-color: #323232;

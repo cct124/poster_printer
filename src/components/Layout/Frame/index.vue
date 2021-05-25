@@ -1,7 +1,7 @@
 <template>
   <div class="frame w-100p flex-jcfs-aic select-none">
     <div class="logo flex-center mar-r-5">
-      <SvgIcon iconClass="printer" />
+      <SvgIcon svg="printer" />
     </div>
     <Menus />
     <div class="titlebar grow-1"></div>

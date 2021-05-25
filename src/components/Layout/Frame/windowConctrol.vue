@@ -4,19 +4,19 @@
       class="left conctrol-item flex-center grow-1"
       @click="windowConctrol('left')"
     >
-      <SvgIcon iconClass="horizontal_line" />
+      <SvgIcon svg="horizontal_line" />
     </div>
     <div
       class="middle conctrol-item flex-center grow-1"
       @click="windowConctrol('middle')"
     >
-      <SvgIcon :iconClass="maximize ? 'maximize' : 'maximize_normal'" />
+      <SvgIcon :svg="maximize ? 'maximize' : 'maximize_normal'" />
     </div>
     <div
       class="right conctrol-item flex-center grow-1"
       @click="windowConctrol('right')"
     >
-      <SvgIcon iconClass="close" />
+      <SvgIcon svg="close" />
     </div>
   </div>
 </template>

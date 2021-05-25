@@ -1,7 +1,6 @@
 <template>
   <div class="canvas">
     <p>Canvas {{ index }}</p>
-    <input type="text" v-model="value" />
   </div>
 </template>
 
