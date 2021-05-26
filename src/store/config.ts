@@ -1,4 +1,4 @@
-export enum APP {
+export enum TabsConctrol {
   /**
    * 创建画布
    */
@@ -23,4 +23,8 @@ export enum APP {
    * 保存标签选择记录
    */
   setActiveCanvasHistory = "setActiveCanvasHistory",
+}
+
+export enum Tools {
+  activeTool = "activeTool",
 }

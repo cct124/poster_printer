@@ -21,18 +21,18 @@
 import { AppStore } from "@/types/store/app";
 import { Options, Vue } from "vue-class-component";
 import store from "@/store";
-import { APP } from "@/store/config";
+import { TabsConctrol } from "@/store/config";
 
 @Options({})
 export default class Tabs extends Vue {
   readonly canvas: AppStore.Canvas[] = store.getters.canvas;
 
   private open(tab: AppStore.Canvas) {
-    store.commit(APP.tabsActiveChange, tab.id);
+    store.commit(TabsConctrol.tabsActiveChange, tab.id);
   }
 
   private close(tab: AppStore.Canvas) {
-    store.commit(APP.destroyCanvas, tab.id);
+    store.commit(TabsConctrol.destroyCanvas, tab.id);
   }
 }
 </script>

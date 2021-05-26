@@ -83,6 +83,17 @@ declare global {
 
   module MainWindow {
     /**
+     * 开发环境相关配置
+     */
+    interface DevConfig {
+      hash?: string;
+      devTools?: {
+        open?: boolean;
+        options?: Electron.OpenDevToolsOptions;
+      };
+    }
+
+    /**
      * 窗口配置
      */
     interface WindowConfig {
@@ -94,6 +105,10 @@ declare global {
        * 窗口配置
        */
       options: Electron.BrowserWindowConstructorOptions;
+      /**
+       * 开发环境相关配置
+       */
+      dev?: DevConfig;
       /**
        * 窗口创建后执行此函数
        */

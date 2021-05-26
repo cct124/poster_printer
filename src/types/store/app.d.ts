@@ -9,6 +9,7 @@ export declare module AppStore {
   }
 
   interface Tool {
+    id: number,
     name: string;
     icon: string;
     active: boolean;

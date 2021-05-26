@@ -40,7 +40,7 @@ import { ref } from "vue";
 import { menus, MENUS_ID } from "@/script/config/menu";
 import { VALIDCHANNELS } from "@/script/system/events";
 import store from "@/store";
-import { APP } from "@/store/config";
+import { TabsConctrol } from "@/store/config";
 
 interface Menu {
   active: boolean;
@@ -68,7 +68,7 @@ export default class Menus extends Vue {
   /**
    * 创建画布
    */
-  private createCanvas = () => store.commit(APP.createCanvas);
+  private createCanvas = () => store.commit(TabsConctrol.createCanvas);
 
   private registered() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,9 +106,9 @@ export default class Menus extends Vue {
    */
   private clickSubmenu(submenu: Menu) {
     switch (submenu.id) {
-      case MENUS_ID.create:
-        this.createCanvas();
-        break;
+      // case MENUS_ID.create:
+      //   this.createCanvas();
+      //   break;
 
       default:
         if (MENUS_ID[submenu.id as MENUS_ID]) {

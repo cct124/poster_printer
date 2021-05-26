@@ -2,7 +2,7 @@ import { app } from "electron";
 import WINDOWS from "@/script/config/windows";
 import path from "path";
 import { VALIDCHANNELS } from "../events";
-
+import { Menu } from "electron";
 /**
  * 窗口列表类
  */
@@ -12,7 +12,7 @@ class Windows {
    */
   private windowsMap: Map<WINDOWS, MainWindow.WindowConfig>;
 
-  constructor(windows?: [[WINDOWS, MainWindow.WindowConfig]]) {
+  constructor(windows?: [WINDOWS, MainWindow.WindowConfig][]) {
     this.windowsMap = new Map(windows);
   }
 
@@ -76,6 +76,44 @@ export default new Windows([
         window.on("blur", () => {
           window.webContents.send(VALIDCHANNELS.windowBlur, "blur");
         });
+      },
+    },
+  ],
+  [
+    WINDOWS.CREATE_CANVAS,
+    {
+      loadURL: "app://./index.html/#/create-canvas",
+      options: {
+        width: 660,
+        height: 400,
+        modal: true,
+        resizable: false,
+        minimizable: false,
+        maximizable: false,
+        fullscreenable: false,
+        title: "新建画布",
+        webPreferences: {
+          // Required for Spectron testing
+          enableRemoteModule: !!process.env.IS_TEST,
+
+          // Use pluginOptions.nodeIntegration, leave this alone
+          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+          nodeIntegration: process.env
+            .ELECTRON_NODE_INTEGRATION as unknown as boolean,
+          contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+          preload: path.join(app.getAppPath(), "preload.js"),
+        },
+      },
+      dev: {
+        hash: "/#/create-canvas",
+        devTools: {
+          options: {
+            mode: "detach",
+          },
+        },
+      },
+      ready(window) {
+        Menu.setApplicationMenu(null);
       },
     },
   ],
