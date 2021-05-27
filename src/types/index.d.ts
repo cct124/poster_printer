@@ -91,6 +91,7 @@ declare global {
         open?: boolean;
         options?: Electron.OpenDevToolsOptions;
       };
+      reload?: boolean;
     }
 
     /**

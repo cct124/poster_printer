@@ -39,7 +39,22 @@ class WindowManager {
             baseUrl = baseUrl + windowConfig.dev.hash;
           // Load the url of the dev server if in development mode
           await window.loadURL(baseUrl as string);
-          if (!process.env.IS_TEST) window.webContents.openDevTools();
+          if (
+            !process.env.IS_TEST &&
+            (!windowConfig.dev ||
+              !windowConfig.dev.devTools ||
+              windowConfig.dev.devTools.open !== false)
+          )
+            window.webContents.openDevTools(
+              windowConfig.dev &&
+                windowConfig.dev.devTools &&
+                windowConfig.dev.devTools.options
+            );
+
+          if (!windowConfig.dev || windowConfig.dev.reload !== false)
+            window.webContents.on("before-input-event", (event, input) => {
+              if (input.key === "F5") window.webContents.reload();
+            });
         } else {
           createProtocol("app");
           // Load the index.html when not in development

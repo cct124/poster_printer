@@ -67,16 +67,17 @@ export default class Lifecycle {
           console.error("Vue Devtools failed to install:", e.toString());
         }
       }
-      windowManager.createWindow(WINDOW.MAIN).then((window) => {
-        if (isDevelopment && !process.env.IS_TEST) {
-          /**
-           * 开发环境注册F5刷新页面快捷键
-           */
-          globalShortcut.register("F5", () => {
-            window!.window.webContents.reload();
-          });
-        }
-      });
+      windowManager.createWindow(WINDOW.MAIN);
+      // .then((window) => {
+      //   if (isDevelopment && !process.env.IS_TEST) {
+      //     /**
+      //      * 开发环境注册F5刷新页面快捷键
+      //      */
+      //     globalShortcut.register("F5", () => {
+      //       window!.window.webContents.reload();
+      //     });
+      //   }
+      // });
 
       /**
        * 菜单监听
