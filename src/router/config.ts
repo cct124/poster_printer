@@ -15,4 +15,8 @@ export enum ROUTER {
    * 创建画布
    */
   createCanvas = "createCanvas",
+  /**
+   * 颜色选择器
+   */
+  colorPicker = "colorPicker",
 }

@@ -2,7 +2,8 @@ import { app } from "electron";
 import WINDOWS from "@/script/config/windows";
 import path from "path";
 import { VALIDCHANNELS } from "../events";
-import { Menu } from "electron";
+import { ROUTER } from "@/router/config";
+
 /**
  * 窗口列表类
  */
@@ -82,10 +83,10 @@ export default new Windows([
   [
     WINDOWS.CREATE_CANVAS,
     {
-      loadURL: "app://./index.html/#/create-canvas",
+      loadURL: `app://./index.html/#/${ROUTER.createCanvas}`,
       options: {
         width: 330,
-        height: 400,
+        height: 380,
         modal: true,
         resizable: false,
         minimizable: false,
@@ -105,15 +106,47 @@ export default new Windows([
         },
       },
       dev: {
-        hash: "/#/create-canvas",
+        hash: `/#/${ROUTER.createCanvas}`,
         devTools: {
           options: {
             mode: "detach",
           },
         },
       },
-      ready(window) {
-        Menu.setApplicationMenu(null);
+    },
+  ],
+  [
+    WINDOWS.COLOR_PICKER,
+    {
+      loadURL: `app://./index.html/#/${ROUTER.colorPicker}`,
+      options: {
+        width: 330,
+        height: 380,
+        modal: true,
+        resizable: false,
+        minimizable: false,
+        maximizable: false,
+        fullscreenable: false,
+        title: "颜色选择器",
+        webPreferences: {
+          // Required for Spectron testing
+          enableRemoteModule: !!process.env.IS_TEST,
+
+          // Use pluginOptions.nodeIntegration, leave this alone
+          // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+          nodeIntegration: process.env
+            .ELECTRON_NODE_INTEGRATION as unknown as boolean,
+          contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+          preload: path.join(app.getAppPath(), "preload.js"),
+        },
+      },
+      dev: {
+        hash: `/#/${ROUTER.colorPicker}`,
+        devTools: {
+          options: {
+            mode: "detach",
+          },
+        },
       },
     },
   ],

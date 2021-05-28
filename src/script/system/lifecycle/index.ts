@@ -1,4 +1,4 @@
-import { app, protocol, BrowserWindow, globalShortcut } from "electron";
+import { app, protocol, BrowserWindow, Menu } from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 import windowManager from "@/script/system/window/manager";
@@ -32,6 +32,8 @@ export default class Lifecycle {
     ]);
 
     app.setName(APP.name);
+
+    Menu.setApplicationMenu(null);
   }
 
   private ready() {

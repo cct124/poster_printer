@@ -1,10 +1,14 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { beforeEach } from "./beforeEach";
+import { ROUTER } from "./config";
+/**
+ * Components
+ */
 import Welcome from "@/views/Welcome.vue";
 import WorkArea from "@/views/WorkArea.vue";
 import CreateCanvas from "@/views/CreateCanvas.vue";
+import ColorPicker from "@/views/ColorPicker.vue";
 import Main from "@/views/Main.vue";
-import { beforeEach } from "./beforeEach";
-import { ROUTER } from "./config";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,9 +35,14 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/create-canvas",
+    path: `/${ROUTER.createCanvas}`,
     name: ROUTER.createCanvas,
     component: CreateCanvas,
+  },
+  {
+    path: `/${ROUTER.colorPicker}`,
+    name: ROUTER.colorPicker,
+    component: ColorPicker,
   },
 ];
 
