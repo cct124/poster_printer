@@ -8,7 +8,7 @@ import { Options, Vue } from "vue-class-component";
 @Options({})
 export default class PrColorPicker extends Vue {
   private openColorPicker() {
-    console.log("openColorPicker");
+    window.openColorPicker("#fff", "test");
   }
 }
 </script>
