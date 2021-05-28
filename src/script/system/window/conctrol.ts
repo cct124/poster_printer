@@ -1,5 +1,5 @@
 import { ipcMain, ipcRenderer } from "electron";
-import { VALIDCHANNELS } from "../events/config";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 import windowManager from "./manager";
 
 export enum WINDOW_CONCTROL {

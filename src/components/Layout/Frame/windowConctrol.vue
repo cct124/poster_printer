@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { WINDOW_CONCTROL } from "@/script/system/window/conctrol";
-import { VALIDCHANNELS } from "@/script/system/events/config";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 
 @Options({})
 export default class WindowConctrol extends Vue {

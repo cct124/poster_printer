@@ -1,5 +1,6 @@
 import { MODELS } from "./config";
 import ipcRenderer from "./ipcRenderer";
+import openColorPicker from "./openColorPicker";
 import { contextBridge } from "electron";
 
 export class Models {
@@ -69,4 +70,7 @@ export class Models {
   }
 }
 
-export const models = new Models([[MODELS.ipcRenderer, ipcRenderer]]);
+export const models = new Models([
+  [MODELS.ipcRenderer, ipcRenderer],
+  [MODELS.openColorPicker, openColorPicker],
+]);

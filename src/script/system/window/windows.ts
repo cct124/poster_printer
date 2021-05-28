@@ -1,7 +1,7 @@
 import { app } from "electron";
 import WINDOWS from "@/script/config/windows";
 import path from "path";
-import { VALIDCHANNELS } from "../events/config";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 import { ROUTER } from "@/router/config";
 
 /**

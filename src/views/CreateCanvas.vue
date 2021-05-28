@@ -46,6 +46,7 @@
         >
         </el-option>
       </PrSelect>
+      <PrColorPicker />
     </div>
     <div class="width mar-t-30 flex-jcfe-aic">
       <PrButton type="dark" round bold>关闭</PrButton>
@@ -56,11 +57,12 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { PrSelect } from "@/components/Form";
+import { PrSelect, PrColorPicker } from "@/components/Form";
 
 @Options({
   components: {
     PrSelect,
+    PrColorPicker,
   },
 })
 export default class CreateCanvas extends Vue {
@@ -107,7 +109,9 @@ export default class CreateCanvas extends Vue {
 <style lang="scss" scoped>
 .create-canvas {
   color: $gray-7;
-  padding: 20px 30px;
+  padding: 20px 30px 0;
+  overflow: hidden;
+
   .title {
     color: $white;
   }
@@ -116,6 +120,11 @@ export default class CreateCanvas extends Vue {
     .pr-input {
       width: 100px;
     }
+  }
+
+  .color {
+    width: 200px;
+    height: 200px;
   }
 }
 </style>

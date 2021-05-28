@@ -1,4 +1,4 @@
-import { VALIDCHANNELS } from "@/script/system/events/config";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 import { MENUS_ID } from "@/script/config/menu";
 import WINDOWS from "@/script/config/windows";
 import { INFO } from "@/script/config/info";
@@ -61,6 +61,7 @@ interface IpcRenderer {
 declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
+    openColorPicker: (hexadecimal: string, desc: string) => void;
   }
 
   module IPC {

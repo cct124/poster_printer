@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron";
-import { VALIDCHANNELS } from "@/script/system/events/config";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 
 /**
  * 打开拾色器窗口
