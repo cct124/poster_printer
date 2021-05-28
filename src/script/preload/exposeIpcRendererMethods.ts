@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 import { INFO } from "@/script/config/info";
 
 /**
@@ -67,6 +67,14 @@ export function exposeIpcRendererMethods() {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.removeAllListeners(channel);
       }
+    },
+    /**
+     * 
+     * @param hexadecimal 打开拾色器窗口
+     * @param desc 
+     */
+    openColorPicker: (hexadecimal: string, desc: string) => {
+      ipcRenderer.send(VALIDCHANNELS.openColorPicker, hexadecimal, desc);
     },
   });
 }

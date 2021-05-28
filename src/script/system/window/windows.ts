@@ -1,7 +1,7 @@
 import { app } from "electron";
 import WINDOWS from "@/script/config/windows";
 import path from "path";
-import { VALIDCHANNELS } from "../events";
+import { VALIDCHANNELS } from "../events/config";
 import { ROUTER } from "@/router/config";
 
 /**
@@ -127,7 +127,7 @@ export default new Windows([
         minimizable: false,
         maximizable: false,
         fullscreenable: false,
-        title: "颜色选择器",
+        title: "拾色器",
         webPreferences: {
           // Required for Spectron testing
           enableRemoteModule: !!process.env.IS_TEST,

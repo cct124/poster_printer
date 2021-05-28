@@ -20,7 +20,7 @@
 import { Options, Vue } from "vue-class-component";
 import { APP } from "@/script/config/app";
 import { INFO } from "@/script/config/info";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 
 @Options({})
 export default class Welcome extends Vue {

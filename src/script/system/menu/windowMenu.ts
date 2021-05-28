@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { MENUS_ID } from "@/script/config/menu";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 
 export default class WindowMenu {
   private menuMap: Map<MENUS_ID, Function>;

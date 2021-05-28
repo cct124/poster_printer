@@ -38,7 +38,7 @@
 import { Options, Vue, setup } from "vue-class-component";
 import { ref } from "vue";
 import { menus, MENUS_ID } from "@/script/config/menu";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 import store from "@/store";
 import { TabsConctrol } from "@/store/config";
 

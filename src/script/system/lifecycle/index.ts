@@ -5,7 +5,7 @@ import windowManager from "@/script/system/window/manager";
 import WINDOW from "@/script/config/windows";
 import windowMenu from "@/script/system/menu";
 import { WindowConctrol } from "@/script/system/window/conctrol";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 import { info } from "@/script/system/info";
 import { APP } from "@/script/config/app";
 

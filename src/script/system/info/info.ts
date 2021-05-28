@@ -1,5 +1,5 @@
 import { INFO } from "@/script/config/info";
-import { VALIDCHANNELS } from "@/script/system/events";
+import { VALIDCHANNELS } from "@/script/system/events/config";
 import { ipcMain } from "electron";
 import windowManager from "@/script/system/window/manager";
 
