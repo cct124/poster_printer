@@ -17,7 +17,10 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
-      preload: "src/script/preload/index.ts",
+      // preload: "src/script/preload/basic.ts",
+      preload: {
+        basic: "src/script/preload/basic.ts",
+      },
       mainProcessWatch: ["src/script", "src/types"],
     },
   },

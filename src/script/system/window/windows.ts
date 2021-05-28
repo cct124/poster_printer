@@ -64,7 +64,7 @@ export default new Windows([
           nodeIntegration: process.env
             .ELECTRON_NODE_INTEGRATION as unknown as boolean,
           contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-          preload: path.join(app.getAppPath(), "preload.js"),
+          preload: path.join(app.getAppPath(), "basic.js"),
         },
       },
       ready(window) {
@@ -102,7 +102,7 @@ export default new Windows([
           nodeIntegration: process.env
             .ELECTRON_NODE_INTEGRATION as unknown as boolean,
           contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-          preload: path.join(app.getAppPath(), "preload.js"),
+          preload: path.join(app.getAppPath(), "basic.js"),
         },
       },
       dev: {
@@ -137,7 +137,7 @@ export default new Windows([
           nodeIntegration: process.env
             .ELECTRON_NODE_INTEGRATION as unknown as boolean,
           contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-          preload: path.join(app.getAppPath(), "preload.js"),
+          preload: path.join(app.getAppPath(), "basic.js"),
         },
       },
       dev: {
