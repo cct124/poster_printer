@@ -1,6 +1,6 @@
-@import "./element-variables.scss";
-@import "./variables.scss";
+@import "./_variables.scss";
 @import "./public.scss";
+
 
 body {
   background-color: var(--background-color);

@@ -1,2 +1,4 @@
 import PrInput from "./PrInput/index.vue";
-export { PrInput };
+import PrSelect from "./PrSelect/index.vue";
+
+export { PrInput, PrSelect };

@@ -26,17 +26,17 @@ import { Options, Vue } from "vue-class-component";
 import { WINDOW_CONCTROL } from "@/script/system/window/conctrol";
 import { VALIDCHANNELS } from "@/script/system/events";
 
-@Options({
-  created() {
+@Options({})
+export default class WindowConctrol extends Vue {
+  created(): void {
     /**
      * 监听窗口最大化改变事件
      */
     this.$ipcRenderer.on(VALIDCHANNELS.imizeChange, (args: boolean) => {
       this.maximize = args;
     });
-  },
-})
-export default class WindowConctrol extends Vue {
+  }
+
   maximize = false;
   windowConctrol(type: WINDOW_CONCTROL): void {
     this.$ipcRenderer.send(VALIDCHANNELS.windowConctrol, type);

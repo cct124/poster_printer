@@ -53,12 +53,12 @@ interface MenusEvent extends MouseEvent {
   menus: boolean;
 }
 
-@Options({
-  created() {
-    this.registered();
-  },
-})
+@Options({})
 export default class Menus extends Vue {
+  created(): void {
+    this.registered();
+  }
+
   submenu = false;
 
   menus = setup(() =>

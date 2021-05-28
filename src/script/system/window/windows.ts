@@ -84,7 +84,7 @@ export default new Windows([
     {
       loadURL: "app://./index.html/#/create-canvas",
       options: {
-        width: 300,
+        width: 330,
         height: 400,
         modal: true,
         resizable: false,

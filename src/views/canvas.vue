@@ -18,7 +18,6 @@ import { Options, Vue } from "vue-class-component";
 })
 export default class Canvas extends Vue {
   readonly index = "";
-
   private value = "";
 }
 </script>

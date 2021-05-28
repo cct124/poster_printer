@@ -21,12 +21,12 @@ import { Options, Vue } from "vue-class-component";
 import { APP } from "@/script/config/app";
 import { INFO } from "@/script/config/info";
 import { VALIDCHANNELS } from "@/script/system/events";
-@Options({
-  mounted() {
-    this.getSystemInfo();
-  },
-})
+
+@Options({})
 export default class Welcome extends Vue {
+  mounted(): void {
+    this.getSystemInfo();
+  }
   /**
    * 应用名称
    */
