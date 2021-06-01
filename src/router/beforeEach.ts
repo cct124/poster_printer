@@ -11,5 +11,6 @@ export function beforeEach(router: Router): void {
         "--background-color",
         to.meta.background as string
       );
+    if (to.meta && to.meta.title) document.title = to.meta.title as string;
   });
 }

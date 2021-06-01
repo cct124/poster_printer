@@ -21,6 +21,23 @@ class WindowManager {
         if (!windows.has(key)) return reject(null);
         const windowConfig = windows.get(key)!;
 
+        // if (process.env.WEBPACK_DEV_SERVER_URL) {
+        //   if (
+        //     !process.env.IS_TEST &&
+        //     (!windowConfig.dev ||
+        //       !windowConfig.dev.devTools ||
+        //       windowConfig.dev.devTools.open !== false)
+        //   ) {
+        //     const options =
+        //       windowConfig.dev &&
+        //       windowConfig.dev.devTools &&
+        //       windowConfig.dev.devTools.options;
+        //     if (!options || (options && options.mode !== "detach")) {
+        //       windowConfig.options.width = windowConfig.options.width! + 474;
+        //     }
+        //   }
+        // }
+
         const window = new BrowserWindow({
           ...windowConfig.options,
           ...options,
@@ -39,17 +56,20 @@ class WindowManager {
             baseUrl = baseUrl + windowConfig.dev.hash;
           // Load the url of the dev server if in development mode
           await window.loadURL(baseUrl as string);
+
           if (
             !process.env.IS_TEST &&
             (!windowConfig.dev ||
               !windowConfig.dev.devTools ||
               windowConfig.dev.devTools.open !== false)
-          )
-            window.webContents.openDevTools(
+          ) {
+            const options =
               windowConfig.dev &&
-                windowConfig.dev.devTools &&
-                windowConfig.dev.devTools.options
-            );
+              windowConfig.dev.devTools &&
+              windowConfig.dev.devTools.options;
+
+            window.webContents.openDevTools(options);
+          }
 
           if (!windowConfig.dev || windowConfig.dev.reload !== false)
             window.webContents.on("before-input-event", (event, input) => {

@@ -13,7 +13,10 @@ export default class IpcEvent {
    * @param key
    * @param fn
    */
-  reg(key: VALIDCHANNELS, fn: Function) {
+  reg(
+    key: VALIDCHANNELS,
+    fn: (event: Electron.IpcMainEvent, ...args: any[]) => void
+  ) {
     if (!VALIDCHANNELS[key]) return false;
     if (this.has(key)) {
       const set = this.get(key)!;

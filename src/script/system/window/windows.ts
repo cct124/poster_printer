@@ -120,8 +120,8 @@ export default new Windows([
     {
       loadURL: `app://./index.html/#/${ROUTER.colorPicker}`,
       options: {
-        width: 330,
-        height: 380,
+        width: 535,
+        height: 402,
         modal: true,
         resizable: false,
         minimizable: false,

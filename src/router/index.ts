@@ -38,11 +38,17 @@ const routes: Array<RouteRecordRaw> = [
     path: `/${ROUTER.createCanvas}`,
     name: ROUTER.createCanvas,
     component: CreateCanvas,
+    meta: {
+      title: "创建画布",
+    },
   },
   {
     path: `/${ROUTER.colorPicker}`,
     name: ROUTER.colorPicker,
     component: ColorPicker,
+    meta: {
+      title: "拾色器",
+    },
   },
 ];
 
