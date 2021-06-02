@@ -49,7 +49,15 @@ const INT_HEX_MAP: { [key: string]: string } = {
   15: "F",
 };
 
-const toHex = function ({ r, g, b }: { r: number; g: number; b: number }) {
+export const toHex = function ({
+  r,
+  g,
+  b,
+}: {
+  r: number;
+  g: number;
+  b: number;
+}) {
   const hexOne = function (value: number) {
     value = Math.min(Math.round(value), 255);
     const high = Math.floor(value / 16);
@@ -176,7 +184,7 @@ export interface Options {
   value?: string;
 }
 
-export default class Color {
+export class Color {
   private _hue = 0;
   private _saturation = 100;
   private _value = 100;

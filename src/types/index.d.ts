@@ -128,10 +128,13 @@ declare global {
       window: Electron.BrowserWindow;
     }
   }
+
+  var __static: string;
 }
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $ipcRenderer: IpcRenderer;
+    $static: string;
   }
 }

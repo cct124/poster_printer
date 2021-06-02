@@ -6,7 +6,7 @@ import {
   ElOption,
   ElSelect,
 } from "element-plus";
-import "@/styles/element-variables.scss";
+// import "@/styles/element-variables.scss";
 
 const elements = [ElInput, ElSelect, ElOption, ElColorPicker, ElButton];
 

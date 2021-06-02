@@ -1,7 +1,17 @@
 <template>
-  <div class="color-picker flex-jcfs-aic w-100vw h-100vh hidden">
-    <div class="color-pool flex-center mar-l-20">
-      <div class="canvas-block mar-r-20">
+  <div
+    class="
+      color-picker
+      flex-jcfs-aic
+      w-100vw
+      h-100vh
+      hidden
+      pad-l-20 pad-r-40
+      bs-bb
+    "
+  >
+    <div class="color-pool flex-center">
+      <div class="canvas-block">
         <canvas
           id="block"
           ref="block"
@@ -11,10 +21,11 @@
           @mousedown="blockPointMousedown"
           @mousemove="blockPointMousemove($event)"
           @mouseup="blockPointMouseup"
-          @mouseout="blockPointMouseout"
+          @mouseleave="blockPointMouseout"
+          @click="blockPointChange($event)"
         ></canvas>
       </div>
-      <div class="canvas-strip relative">
+      <div class="canvas-strip relative mar-l-20">
         <canvas
           id="strip"
           ref="strip"
@@ -24,23 +35,43 @@
           @mousedown="stripPointMousedown"
           @mousemove="stripPointMousemove($event)"
           @mouseup="stripPointMouseup"
-          @mouseout="stripPointMouseout"
+          @mouseleave="stripPointMouseout"
           @click="stripPointChange($event)"
         ></canvas>
         <div class="conctrol flex-center" :style="stripConctrolStyleComputed">
-          <SvgIcon svg="chevron_right" />
+          <SvgIcon svg="chevron_right" :style="chevronStyle" />
           <div class="transparent"></div>
-          <SvgIcon svg="chevron_left" />
+          <SvgIcon svg="chevron_left" :style="chevronStyle" />
         </div>
       </div>
     </div>
-    <div class="conctrol"></div>
+    <div
+      class="color-picker-conctrol mar-l-20 flex-jcsb-aifs flex-column grow-1"
+    >
+      <div class="color-info">
+        <div class="new-old-color mar-b-20">
+          <p class="mar-tb-5 ft-sm text-center">新的</p>
+          <div class="color-block" :style="newColorStyle"></div>
+          <div class="color-block" :style="currentColorStyle"></div>
+          <p class="mar-tb-5 ft-sm text-center">当前</p>
+        </div>
+        <div class="hex w-100">
+          <PrInput
+            v-model.trim="currentColor"
+            @keyup.enter="colorInputValueChange"
+          />
+        </div>
+      </div>
+      <div class="button w-100p flex-jcfe-aic">
+        <PrButton type="dark" round bold>确定</PrButton>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Color from "@/utils/color";
+import { Color, toHex } from "@/utils/color";
 
 @Options({})
 export default class ColorPicker extends Vue {
@@ -50,18 +81,48 @@ export default class ColorPicker extends Vue {
   private heightBlock = 0;
   private widthStrip = 0;
   private heightStrip = 0;
+  private canvasBlockSize = 10;
+  private canvasStripSize = 10;
   private stripConctrolStyle = {
-    top: -4,
+    top: -this.canvasStripSize / 2,
     left: -8,
+  };
+  private blockConctrolStyle = {
+    top: 0,
+    left: 0,
   };
   private dragStrip = false;
   private dragBlock = false;
   private color = new Color();
+  private rgbaColor = "rgba( 255, 0, 0, 1)";
+
+  private chevronStyle = {
+    width: this.canvasStripSize,
+    height: this.canvasStripSize,
+  };
+  private newColorStyle = {
+    backgroundColor: "",
+  };
+  private currentColorStyle = {
+    backgroundColor: "#36BC38",
+  };
+
+  private currentColor = "";
 
   mounted(): void {
     this.initCanvas();
-    this.color.fromString("#986825");
-    console.log(this.color);
+    this.setColor(this.currentColorStyle.backgroundColor);
+    this.colorChange();
+    console.log(this.$route);
+  }
+
+  /**
+   * 设置色值
+   */
+  private setColor(value: string) {
+    this.color.fromString(value);
+    this.hueChangeStripConctrolStyle();
+    this.saturationLightnessChangeBlockConctrolStyle();
   }
 
   private get stripConctrolStyleComputed() {
@@ -71,6 +132,63 @@ export default class ColorPicker extends Vue {
     };
   }
 
+  /**
+   * 色值的改变会触发这个函数
+   */
+  private colorChange() {
+    if (this.ctxStrip && this.ctxBlock) {
+      const x =
+        this.blockConctrolStyle.left > 0 ? this.blockConctrolStyle.left : 0;
+      const y =
+        this.blockConctrolStyle.top > 0 ? this.blockConctrolStyle.top : 0;
+
+      const data = this.ctxBlock.getImageData(x, y, 1, 1).data;
+
+      this.newColorStyle.backgroundColor = toHex({
+        r: data[0],
+        g: data[1],
+        b: data[2],
+      });
+
+      this.currentColor = this.newColorStyle.backgroundColor;
+
+      this.randerBlock(x, y);
+    }
+  }
+
+  private randerBlock(x: number, y: number) {
+    if (this.ctxStrip && this.ctxBlock) {
+      this.fillGradient(
+        this.ctxBlock,
+        this.ctxStrip,
+        this.rgbaColor,
+        this.widthBlock,
+        this.heightBlock
+      );
+
+      this.ctxBlock.strokeStyle = "#000";
+
+      this.ctxBlock.beginPath();
+      this.ctxBlock.arc(x, y, this.canvasBlockSize / 2, 0, Math.PI * 2, true);
+      this.ctxBlock.stroke();
+
+      this.ctxBlock.strokeStyle = "#fff";
+      this.ctxBlock.beginPath();
+      this.ctxBlock.arc(
+        x,
+        y,
+        this.canvasBlockSize / 2 - 1,
+        0,
+        Math.PI * 2,
+        true
+      );
+      this.ctxBlock.stroke();
+    }
+  }
+
+  /**
+   * 初始化canvas画布
+   */
   private initCanvas() {
     const block = this.$refs.block as HTMLCanvasElement;
     const strip = this.$refs.strip as HTMLCanvasElement;
@@ -86,7 +204,7 @@ export default class ColorPicker extends Vue {
       this.fillGradient(
         this.ctxBlock,
         this.ctxStrip,
-        "rgba(255,0,0,1)",
+        this.rgbaColor,
         this.widthBlock,
         this.heightBlock
       );
@@ -117,6 +235,9 @@ export default class ColorPicker extends Vue {
     }
   }
 
+  /**
+   * sl 块渲染
+   */
   private fillGradient(
     ctx1: CanvasRenderingContext2D,
     ctx2: CanvasRenderingContext2D,
@@ -140,24 +261,90 @@ export default class ColorPicker extends Vue {
     ctx1.fillRect(0, 0, width, height);
   }
 
+  /**
+   * 监听点击strip点击事件
+   */
   private stripPointChange(event: MouseEvent) {
+    this.hueStripChange(event.offsetY);
+  }
+
+  private blockPonitChange(event: MouseEvent) {
+    this.blockConctrolStyle.top = event.offsetY;
+    this.blockConctrolStyle.left = event.offsetX;
+    this.colorChange();
+  }
+
+  /**
+   * 根据strip条高度改变色相值
+   */
+  private hueStripChange(y: number) {
     if (this.ctxStrip && this.ctxBlock) {
-      const data = this.ctxStrip.getImageData(1, event.offsetY, 1, 1).data;
+      const data = this.ctxStrip.getImageData(1, y, 1, 1).data;
 
-      this.stripConctrolStyle.top = event.offsetY - 4;
+      this.stripConctrolStyle.top = y - this.canvasStripSize / 2;
 
-      console.log(data[0], data[1], data[2]);
+      this.rgbaColor = `rgba( ${data[0]}, ${data[1]}, ${data[2]}, 1 )`;
 
-      const rgbaColor = `rgba( ${data[0]}, ${data[1]}, ${data[2]}, 1 )`;
-
-      this.fillGradient(
-        this.ctxBlock,
-        this.ctxStrip,
-        rgbaColor,
-        this.widthBlock,
-        this.heightBlock
-      );
+      this.colorChange();
     }
+  }
+
+  /**
+   * 依据色相值设定高度
+   */
+  private hueChangeStripConctrolStyle() {
+    if (this.color.get("hue") !== undefined) {
+      this.stripConctrolStyle.top = this.hueConvertsLength(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.color.get("hue")!,
+        this.heightStrip
+      );
+
+      this.hueStripChange(this.stripConctrolStyle.top);
+    }
+  }
+
+  /**
+   * 依据饱和度和明度设定 选择点的位置
+   */
+  private saturationLightnessChangeBlockConctrolStyle() {
+    if (
+      this.color.get("saturation") !== undefined &&
+      this.color.get("value") !== undefined
+    ) {
+      this.blockConctrolStyle.left =
+        Math.round(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.widthBlock * (this.color.get("saturation")! / 100)
+        ) -
+        this.canvasBlockSize / 2;
+
+      this.blockConctrolStyle.top =
+        Math.round(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.heightBlock - this.heightBlock * (this.color.get("value")! / 100)
+        ) -
+        this.canvasBlockSize / 2;
+    }
+  }
+
+  /**
+   * 色相值转换为长度值
+   */
+  private hueConvertsLength(hue: number, length: number) {
+    return length - Math.round((hue * length) / 360);
+  }
+
+  private colorInputValueChange() {
+    const color = this.currentColor;
+    this.setColor(color);
+    const x =
+      this.blockConctrolStyle.left > 0 ? this.blockConctrolStyle.left : 0;
+    const y = this.blockConctrolStyle.top > 0 ? this.blockConctrolStyle.top : 0;
+    this.randerBlock(x, y);
+
+    this.newColorStyle.backgroundColor = color;
+    this.currentColor = color;
   }
 
   private stripPointMousedown() {
@@ -176,12 +363,18 @@ export default class ColorPicker extends Vue {
     this.dragStrip = false;
   }
 
+  private blockPointChange(event: MouseEvent) {
+    this.blockPonitChange(event);
+  }
+
   private blockPointMousedown() {
     this.dragBlock = true;
   }
 
   private blockPointMousemove(event: MouseEvent) {
-    if (this.dragBlock) console.log(event);
+    if (this.dragBlock) {
+      this.blockPonitChange(event);
+    }
   }
 
   private blockPointMouseup() {
@@ -196,6 +389,15 @@ export default class ColorPicker extends Vue {
 <style lang="scss" scoped>
 .color-picker {
   .color-pool {
+    .canvas-block {
+      cursor: url(http://saas.static.zhongjingapi.com/dev/images/202106/01/2e7f94e5a5b661d282eeb8fba02712d8.cur)
+          8 7.4,
+        auto;
+      .conctrol {
+        position: absolute;
+        filter: invert(1) grayscale(1);
+      }
+    }
     .canvas-strip {
       width: 30px;
       height: 300px;
@@ -213,12 +415,18 @@ export default class ColorPicker extends Vue {
         .transparent {
           width: 26px;
         }
+      }
+    }
+  }
 
-        .svg-icon {
-          $s: 10px;
-          width: $s;
-          height: $s;
-        }
+  .color-picker-conctrol {
+    height: 300px;
+    .new-old-color {
+      width: 80px;
+      .color-block {
+        height: 35px;
+        border: 1px solid #323232;
+        background-color: aquamarine;
       }
     }
   }
