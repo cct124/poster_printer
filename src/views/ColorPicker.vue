@@ -104,16 +104,31 @@ export default class ColorPicker extends Vue {
     backgroundColor: "",
   };
   private currentColorStyle = {
-    backgroundColor: "#36BC38",
+    backgroundColor: "#ffffff",
   };
 
   private currentColor = "";
+
+  private colorPickerDesc = "";
+
+  created(): void {
+    this.createdColorPicker();
+  }
 
   mounted(): void {
     this.initCanvas();
     this.setColor(this.currentColorStyle.backgroundColor);
     this.colorChange();
-    console.log(this.$route);
+  }
+
+  private createdColorPicker() {
+    if (this.$route.query.color)
+      this.currentColorStyle.backgroundColor = this.$route.query
+        .color as string;
+    if (this.$route.query.desc) {
+      this.colorPickerDesc = this.$route.query.desc as string;
+      document.title += `（${this.colorPickerDesc}）`;
+    }
   }
 
   /**

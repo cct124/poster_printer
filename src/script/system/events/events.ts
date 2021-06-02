@@ -59,7 +59,7 @@ export default class IpcEvent {
    * @param key
    */
   listener(key: VALIDCHANNELS) {
-    ipcMain.on(key, (event, ...args) => this.run(key, event, args));
+    ipcMain.on(key, (event, ...args) => this.run(key, event, ...args));
   }
 
   /**

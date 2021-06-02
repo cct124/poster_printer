@@ -129,7 +129,20 @@ declare global {
     }
   }
 
+  module WindowManager {
+    interface options {
+      query?: {
+        [key: string]: any;
+      };
+      options: Electron.BrowserWindowConstructorOptions;
+    }
+  }
+
   var __static: string;
+
+  interface ObjKey {
+    [key: string]: any;
+  }
 }
 
 declare module "@vue/runtime-core" {

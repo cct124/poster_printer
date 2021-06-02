@@ -2,7 +2,7 @@ import { BrowserWindow } from "electron";
 import WINDOWS from "@/script/config/windows";
 import windows from "@/script/system/window/windows";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-
+import { queryParams } from "@/utils/tool";
 class WindowManager {
   private windowMap: Map<number, MainWindow.WindowMapValue> = new Map();
   private windowIdMap: Map<WINDOWS, number[]> = new Map();
@@ -12,35 +12,15 @@ class WindowManager {
    * @param key
    * @returns
    */
-  createWindow(
-    key: WINDOWS,
-    options: Electron.BrowserWindowConstructorOptions = {}
-  ) {
+  createWindow(key: WINDOWS, options: WindowManager.options = { options: {} }) {
     return new Promise<MainWindow.WindowMapValue | undefined>(
       async (resolve, reject) => {
         if (!windows.has(key)) return reject(null);
         const windowConfig = windows.get(key)!;
 
-        // if (process.env.WEBPACK_DEV_SERVER_URL) {
-        //   if (
-        //     !process.env.IS_TEST &&
-        //     (!windowConfig.dev ||
-        //       !windowConfig.dev.devTools ||
-        //       windowConfig.dev.devTools.open !== false)
-        //   ) {
-        //     const options =
-        //       windowConfig.dev &&
-        //       windowConfig.dev.devTools &&
-        //       windowConfig.dev.devTools.options;
-        //     if (!options || (options && options.mode !== "detach")) {
-        //       windowConfig.options.width = windowConfig.options.width! + 474;
-        //     }
-        //   }
-        // }
-
         const window = new BrowserWindow({
           ...windowConfig.options,
-          ...options,
+          ...options.options,
         });
 
         this.windowMap.set(window.id, {
@@ -50,12 +30,16 @@ class WindowManager {
 
         if (windowConfig.ready) windowConfig.ready(window);
 
+        let query = "";
+
+        if (options.query) query = "?" + queryParams(options.query);
+
         if (process.env.WEBPACK_DEV_SERVER_URL) {
           let baseUrl = process.env.WEBPACK_DEV_SERVER_URL;
           if (windowConfig.dev && windowConfig.dev.hash)
             baseUrl = baseUrl + windowConfig.dev.hash;
           // Load the url of the dev server if in development mode
-          await window.loadURL(baseUrl as string);
+          await window.loadURL((baseUrl as string) + query);
 
           if (
             !process.env.IS_TEST &&
@@ -78,7 +62,7 @@ class WindowManager {
         } else {
           createProtocol("app");
           // Load the index.html when not in development
-          window.loadURL(windowConfig.loadURL);
+          window.loadURL(windowConfig.loadURL + query);
         }
 
         if (!this.windowIdMap.has(key)) this.windowIdMap.set(key, []);

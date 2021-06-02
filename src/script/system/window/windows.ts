@@ -141,7 +141,7 @@ export default new Windows([
         },
       },
       dev: {
-        hash: `/#/${ROUTER.colorPicker}`,
+        hash: `#/${ROUTER.colorPicker}`,
         devTools: {
           options: {
             mode: "detach",

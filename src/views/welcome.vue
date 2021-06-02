@@ -26,7 +26,7 @@ import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 export default class Welcome extends Vue {
   mounted(): void {
     this.getSystemInfo();
-    window.openColorPicker("#fff", "desc");
+    window.openColorPicker("#3070D0", "新建画布");
   }
   /**
    * 应用名称
