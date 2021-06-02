@@ -119,6 +119,7 @@ export default new Windows([
     WINDOWS.COLOR_PICKER,
     {
       loadURL: `app://./index.html/#/${ROUTER.colorPicker}`,
+      unique: true,
       options: {
         width: 535,
         height: 402,
@@ -143,6 +144,7 @@ export default new Windows([
       dev: {
         hash: `#/${ROUTER.colorPicker}`,
         devTools: {
+          open: false,
           options: {
             mode: "detach",
           },

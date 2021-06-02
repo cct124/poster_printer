@@ -63,7 +63,9 @@
         </div>
       </div>
       <div class="button w-100p flex-jcfe-aic">
-        <PrButton type="dark" round bold>确定</PrButton>
+        <PrButton type="dark" round bold @click="confimColorPicker"
+          >确定</PrButton
+        >
       </div>
     </div>
   </div>
@@ -72,6 +74,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { Color, toHex } from "@/utils/color";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 
 @Options({})
 export default class ColorPicker extends Vue {
@@ -119,6 +122,7 @@ export default class ColorPicker extends Vue {
     this.initCanvas();
     this.setColor(this.currentColorStyle.backgroundColor);
     this.colorChange();
+    window.openColorPicker("#fff", "desc");
   }
 
   private createdColorPicker() {
@@ -398,6 +402,10 @@ export default class ColorPicker extends Vue {
 
   private blockPointMouseout() {
     this.dragBlock = false;
+  }
+
+  private confimColorPicker() {
+    this.$ipcRenderer.send(VALIDCHANNELS.colorPickerValue, this.currentColor);
   }
 }
 </script>

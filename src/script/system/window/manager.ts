@@ -18,6 +18,12 @@ class WindowManager {
         if (!windows.has(key)) return reject(null);
         const windowConfig = windows.get(key)!;
 
+        if (windowConfig.unique) {
+          for (const [_key, value] of this.windowMap) {
+            if (value.type === key) return reject(null);
+          }
+        }
+
         const window = new BrowserWindow({
           ...windowConfig.options,
           ...options.options,
@@ -68,9 +74,22 @@ class WindowManager {
         if (!this.windowIdMap.has(key)) this.windowIdMap.set(key, []);
         this.windowIdMap.get(key)!.push(window.id);
 
-        window.once("ready-to-show", () => {
-          resolve(this.windowMap.get(window.id));
+        // // window.once("ready-to-show", () => {
+        // //   resolve(this.windowMap.get(window.id));
+        // // });
+
+        // window.webContents.once("did-frame-finish-load", () => {
+        //   resolve(this.windowMap.get(window.id));
+        // });
+
+        const windowId = window.id;
+
+        window.once("closed", () => {
+          this.windowMap.delete(windowId);
         });
+
+        resolve(this.windowMap.get(window.id));
+
       }
     );
   }

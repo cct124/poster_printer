@@ -12,6 +12,7 @@ const app = createApp(App);
 
 app.config.globalProperties = {
   $ipcRenderer: window.ipcRenderer,
+  $openColorPicker: window.openColorPicker,
   $static: __static,
 };
 

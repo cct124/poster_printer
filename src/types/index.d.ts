@@ -61,7 +61,7 @@ interface IpcRenderer {
 declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
-    openColorPicker: (hexadecimal: string, desc: string) => void;
+    openColorPicker: (hex?: string, desc?: string) => Promise<string>;
   }
 
   module IPC {
@@ -108,6 +108,10 @@ declare global {
        */
       options: Electron.BrowserWindowConstructorOptions;
       /**
+       * 只能存在一个这种类型的窗口
+       */
+      unique?: boolean;
+      /**
        * 开发环境相关配置
        */
       dev?: DevConfig;
@@ -148,6 +152,7 @@ declare global {
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $ipcRenderer: IpcRenderer;
+    $openColorPicker: (hex?: string, desc?: string) => Promise<string>;
     $static: string;
   }
 }

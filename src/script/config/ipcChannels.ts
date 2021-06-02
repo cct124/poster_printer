@@ -40,4 +40,9 @@ export enum VALIDCHANNELS {
    * 打开拾色器
    */
   openColorPicker = "openColorPicker",
+
+  /**
+   * 拾色器色值传输
+   */
+  colorPickerValue = "colorPickerValue",
 }
