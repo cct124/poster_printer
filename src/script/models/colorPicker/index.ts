@@ -7,8 +7,8 @@ import { ipcMain } from "electron";
 export default function () {
   ipcEvent.reg(
     VALIDCHANNELS.openColorPicker,
-    (event, color: string, desc: string) => {
-      const parent = windowManager.get(event.frameId)!.window;
+    (parentEvent, color: string, desc: string) => {
+      const parent = windowManager.get(parentEvent.frameId)!.window;
       windowManager
         .createWindow(WINDOWS.COLOR_PICKER, {
           options: { parent },
@@ -16,7 +16,7 @@ export default function () {
         })
         .then((res) => {
           ipcMain.once(VALIDCHANNELS.colorPickerValue, (event, hex) => {
-            parent.webContents.send(VALIDCHANNELS.colorPickerValue, hex);
+            parentEvent.reply(VALIDCHANNELS.colorPickerValue, hex);
             res!.window.close();
           });
         });

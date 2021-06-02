@@ -46,7 +46,7 @@
         >
         </el-option>
       </PrSelect>
-      <PrColorPicker />
+      <PrColorPicker v-model="backgroundColor" />
     </div>
     <div class="width mar-t-30 flex-jcfe-aic">
       <PrButton type="dark" round bold>关闭</PrButton>

@@ -1,4 +1,4 @@
-import { ipcRenderer } from "electron";
+import { ipcRenderer, webFrame } from "electron";
 import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 
 /**

@@ -1,14 +1,25 @@
 <template>
-  <div class="pr-color-picker" @click="openColorPicker"></div>
+  <div
+    class="pr-color-picker"
+    @click="openColorPicker"
+    :style="{ background: modelValue }"
+  ></div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue, prop } from "vue-class-component";
 
 @Options({})
-export default class PrColorPicker extends Vue {
+export default class PrColorPicker extends Vue.with(
+  class {
+    modelValue = prop<string>({ default: "#ffffff" });
+    desc = prop<string>({ default: "" });
+  }
+) {
   private openColorPicker() {
-    window.openColorPicker("#fff", "test");
+    this.$openColorPicker(this.modelValue, this.desc).then((res) => {
+      this.$emit("update:modelValue", res);
+    });
   }
 }
 </script>

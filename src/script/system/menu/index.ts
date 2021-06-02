@@ -22,7 +22,9 @@ export default new WindowMenu([
     MENUS_ID.create,
     (event: Electron.IpcMainEvent, args: MenuList.MenusConfig) => {
       const parent = windowManager.get(event.frameId)!.window;
-      windowManager.createWindow(WINDOWS.CREATE_CANVAS, { parent });
+      windowManager.createWindow(WINDOWS.CREATE_CANVAS, {
+        options: { parent },
+      });
     },
   ],
 ]);

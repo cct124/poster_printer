@@ -8,6 +8,7 @@
       hidden
       pad-l-20 pad-r-40
       bs-bb
+      select-none
     "
   >
     <div class="color-pool flex-center">
@@ -114,18 +115,17 @@ export default class ColorPicker extends Vue {
 
   private colorPickerDesc = "";
 
-  created(): void {
-    this.createdColorPicker();
-  }
-
   mounted(): void {
+    this.createdColorPicker();
+
     this.initCanvas();
-    this.setColor(this.currentColorStyle.backgroundColor);
-    this.colorChange();
-    window.openColorPicker("#fff", "desc");
+    this.currentColor = this.currentColorStyle.backgroundColor;
+    this.colorInputValueChange();
   }
 
   private createdColorPicker() {
+    console.log(this.$route.query.color);
+
     if (this.$route.query.color)
       this.currentColorStyle.backgroundColor = this.$route.query
         .color as string;
