@@ -5,6 +5,7 @@
       mode="bottom-line"
       v-model="title"
       placeholder="标题"
+      @change="titleChange"
     />
     <p class="ft-esm">宽度</p>
     <div class="width flex-jcsb-aic">
@@ -49,15 +50,17 @@
       <PrColorPicker v-model="backgroundColor" />
     </div>
     <div class="width mar-t-30 flex-jcfe-aic">
-      <PrButton type="dark" round bold>关闭</PrButton>
+      <PrButton type="dark" round bold @click="close">关闭</PrButton>
       <PrButton type="primary" round bold>创建</PrButton>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { AppStore } from "@/types/store/app";
 import { Options, Vue } from "vue-class-component";
 import { PrSelect, PrColorPicker } from "@/components/Form";
+import store from "@/store";
 
 @Options({
   components: {
@@ -70,11 +73,17 @@ export default class CreateCanvas extends Vue {
     document.title = "创建画布";
   }
 
+  mounted(): void {
+    this.title = this.defaultCanvasName();
+  }
+
   private title = "";
-  private width = 0;
-  private height = 0;
+  private width = 300;
+  private height = 300;
   private widthUnit = "pixel";
   private backgroundColor = "#ffffff";
+
+  readonly canvas: AppStore.Canvas[] = store.getters.canvas;
 
   private widthUnitOptions = [
     {
@@ -97,12 +106,24 @@ export default class CreateCanvas extends Vue {
   private inputNumberChange(value: string, key: string) {
     switch (key) {
       case "width":
-        this.width = parseInt(value);
+        this.width = value ? parseInt(value) : 300;
         break;
       case "height":
-        this.height = parseInt(value);
+        this.height = value ? parseInt(value) : 300;
         break;
     }
+  }
+
+  private defaultCanvasName() {
+    return `新建画布 ${this.canvas.length + 1}`;
+  }
+
+  private titleChange(v: string) {
+    this.title = v ? v : this.defaultCanvasName();
+  }
+
+  private close() {
+    window.close();
   }
 }
 </script>

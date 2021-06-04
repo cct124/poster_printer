@@ -10,12 +10,16 @@ export const tabsConctrol = {
     activeCanvasHistory: new Set(),
   },
   mutations: {
-    [TabsConctrol.createCanvas](state: AppStore.State): void {
+    [TabsConctrol.createCanvas](
+      state: AppStore.State,
+      name: string,
+      desc: string
+    ): void {
       const index = state.canvas.length;
       state.canvas.push({
         id: index,
-        name: `新建画布 ${index + 1}`,
-        desc: `新建画布 ${index + 1}`,
+        name,
+        desc,
         active: false,
       });
 

@@ -108,6 +108,7 @@ export default new Windows([
       dev: {
         hash: `/#/${ROUTER.createCanvas}`,
         devTools: {
+          open: false,
           options: {
             mode: "detach",
           },
