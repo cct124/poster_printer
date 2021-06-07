@@ -2,6 +2,7 @@ import router from "@/router";
 import { ROUTER } from "@/router/config";
 import { TabsConctrol } from "@/store/config";
 import { AppStore } from "@/types/store/app";
+import { Storage } from "@/script/config/storage";
 
 export const tabsConctrol = {
   state: {
@@ -12,17 +13,17 @@ export const tabsConctrol = {
   mutations: {
     [TabsConctrol.createCanvas](
       state: AppStore.State,
-      name: string,
-      desc: string
+      payload: AppStore.CreateCanvas
     ): void {
       const index = state.canvas.length;
       state.canvas.push({
         id: index,
-        name,
-        desc,
+        name: payload.title,
+        desc: payload.title,
         active: false,
+        meta: payload,
       });
-
+      
       // eslint-disable-next-line
       (this as any).commit(TabsConctrol.tabsActiveChange, index);
 

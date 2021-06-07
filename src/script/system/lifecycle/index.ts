@@ -6,7 +6,6 @@ import WINDOW from "@/script/config/windows";
 import windowMenu from "@/script/system/menu";
 import { WindowConctrol } from "@/script/system/window/conctrol";
 import { VALIDCHANNELS } from "@/script/config/ipcChannels";
-import { info } from "@/script/system/info";
 import { APP } from "@/script/config/app";
 import MODELS from "@/script/config/models";
 import modelsManager from "@/script/models";
@@ -92,9 +91,8 @@ export default class Lifecycle {
        */
       new WindowConctrol();
 
-      info.listener();
-
       modelsManager.run(MODELS.colorPicker);
+      modelsManager.run(MODELS.variable);
     });
 
     // Exit cleanly on request from parent process in development mode.

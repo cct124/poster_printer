@@ -58,10 +58,19 @@ interface IpcRenderer {
   info: (channel: VALIDCHANNELS, id: INFO) => Promise<IPC.PromiseIpcInfo>;
 }
 
+interface Variables {
+  get: (key: VARIABLE, ...args: any[]) => Promise<any>;
+  set: (key: VARIABLE, value: any) => Promise<any>;
+  reg: (key: VARIABLE, value: any) => Promise<any>;
+  delete: (key: VARIABLE) => Promise<any>;
+  has: (key: VARIABLE) => Promise<any>;
+}
+
 declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
     openColorPicker: (hex?: string, desc?: string) => Promise<string>;
+    variables: Variables;
   }
 
   module IPC {
@@ -149,10 +158,20 @@ declare global {
   }
 }
 
+interface Storage {
+  get(key: string): any;
+  set(key: string, data: any): void;
+  delete(key: string): void;
+  clear(): void;
+}
+
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $ipcRenderer: IpcRenderer;
     $openColorPicker: (hex?: string, desc?: string) => Promise<string>;
     $static: string;
+    $session: Storage;
+    $local: Storage;
+    $variables: Variables;
   }
 }

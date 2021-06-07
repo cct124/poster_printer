@@ -1,15 +1,24 @@
 import { DefineComponent } from "vue";
 
 export declare module AppStore {
+  interface CreateCanvas {
+    backgroundColor: string;
+    height: number;
+    title: string;
+    width: number;
+    widthUnit: string;
+  }
+
   interface Canvas {
     id: number;
     name: string;
     desc: string;
     active: boolean;
+    meta: CreateCanvas;
   }
 
   interface Tool {
-    id: number,
+    id: number;
     name: string;
     icon: string;
     active: boolean;

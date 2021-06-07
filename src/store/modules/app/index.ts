@@ -1,25 +1,13 @@
 import { tabsConctrol } from "./tabsConctrol";
 import { toolsStore } from "./tools";
-import { MutationTree } from "vuex";
-import { AppStore } from "@/types/store/app";
+import { Module } from "vuex";
 
-interface AppMutationTree {
-  state: AppStore.State;
+// eslint-disable-next-line
+export const App: Module<any, any> = {
+  state: { ...toolsStore.state, ...tabsConctrol.state },
   mutations: {
-    activeTool(state: AppStore.State, id: number): void;
-    createCanvas(state: AppStore.State, name: string, desc: string): void;
-    tabsActiveChange(state: AppStore.State, id: number): void;
-    destroyCanvas(state: AppStore.State, id: number): void;
-    currentTabsActive(state: AppStore.State): AppStore.Canvas | undefined;
-    setActiveCanvasHistory(state: AppStore.State, id: number): void;
-  };
-}
-
-export const App: MutationTree<AppMutationTree> = {
-  state: () => ({ ...toolsStore.state, ...tabsConctrol.state }),
-  mutations: () => ({
     ...toolsStore.mutations,
     ...tabsConctrol.mutations,
-  }),
-  actions: () => ({}),
+  },
+  actions: {},
 };

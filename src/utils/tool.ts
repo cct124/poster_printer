@@ -69,7 +69,7 @@ export function isArray(val: any) {
  * @param {Object} val The value to test
  * @returns {boolean} True if value is a Date, otherwise false
  */
-function isDate(val: any) {
+export function isDate(val: any) {
   return toString.call(val) === "[object Date]";
 }
 
@@ -79,8 +79,17 @@ function isDate(val: any) {
  * @param {Object} val The value to test
  * @returns {boolean} True if value is an Object, otherwise false
  */
-function isObject(val: any) {
+export function isObject(val: any) {
   return val !== null && typeof val === "object";
+}
+
+/**
+ * Determine if a value is an Function
+ * @param val The value to test
+ * @returns {boolean} True if value is an Function, otherwise false
+ */
+export function isFunction(val: any) {
+  return toString.call(val) === "[object Function]";
 }
 
 /**

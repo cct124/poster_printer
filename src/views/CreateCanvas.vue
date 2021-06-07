@@ -51,7 +51,7 @@
     </div>
     <div class="width mar-t-30 flex-jcfe-aic">
       <PrButton type="dark" round bold @click="close">关闭</PrButton>
-      <PrButton type="primary" round bold>创建</PrButton>
+      <PrButton type="primary" round bold @click="createCanvas">创建</PrButton>
     </div>
   </div>
 </template>
@@ -61,6 +61,7 @@ import { AppStore } from "@/types/store/app";
 import { Options, Vue } from "vue-class-component";
 import { PrSelect, PrColorPicker } from "@/components/Form";
 import store from "@/store";
+import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 
 @Options({
   components: {
@@ -120,6 +121,17 @@ export default class CreateCanvas extends Vue {
 
   private titleChange(v: string) {
     this.title = v ? v : this.defaultCanvasName();
+  }
+
+  private createCanvas() {
+    this.$ipcRenderer.send(VALIDCHANNELS.createCanvas, {
+      title: this.title,
+      width: this.width,
+      height: this.height,
+      widthUnit: this.widthUnit,
+      backgroundColor: this.backgroundColor,
+    });
+    window.close();
   }
 
   private close() {

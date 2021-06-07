@@ -41,6 +41,7 @@ import { menus, MENUS_ID } from "@/script/config/menu";
 import { VALIDCHANNELS } from "@/script/config/ipcChannels";
 import store from "@/store";
 import { TabsConctrol } from "@/store/config";
+import { AppStore } from "@/types/store/app";
 
 interface Menu {
   active: boolean;
@@ -57,6 +58,7 @@ interface MenusEvent extends MouseEvent {
 export default class Menus extends Vue {
   created(): void {
     this.registered();
+    this.registeredEvent();
   }
 
   submenu = false;
@@ -68,7 +70,8 @@ export default class Menus extends Vue {
   /**
    * 创建画布
    */
-  private createCanvas = () => store.commit(TabsConctrol.createCanvas);
+  private createCanvas = (payload: AppStore.CreateCanvas) =>
+    store.commit(TabsConctrol.createCanvas, payload);
 
   private registered() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,6 +84,15 @@ export default class Menus extends Vue {
     this.$ipcRenderer.on(VALIDCHANNELS.windowBlur, () => {
       this.closeAllSubmenu();
     });
+  }
+
+  private registeredEvent() {
+    this.$ipcRenderer.on(
+      VALIDCHANNELS.createCanvas,
+      (args: AppStore.CreateCanvas) => {
+        this.createCanvas(args);
+      }
+    );
   }
 
   /**

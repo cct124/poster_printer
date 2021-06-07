@@ -45,4 +45,19 @@ export enum VALIDCHANNELS {
    * 拾色器色值传输
    */
   colorPickerValue = "colorPickerValue",
+
+  /**
+   * 创建画布
+   */
+  createCanvas = "createCanvas",
+
+  /**
+   * 变量
+   */
+  variableGet = "variableGet",
+  variableSet = "variableSet",
+  variableHas = "variableHas",
+  variableReg = "variableReg",
+  variableDelete = "variableDelete",
+  variableReply = "variableReply",
 }

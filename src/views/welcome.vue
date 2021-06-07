@@ -19,8 +19,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { APP } from "@/script/config/app";
-import { INFO } from "@/script/config/info";
-import { VALIDCHANNELS } from "@/script/config/ipcChannels";
+import { VARIABLE } from "@/script/config/variable";
 
 @Options({})
 export default class Welcome extends Vue {
@@ -38,32 +37,14 @@ export default class Welcome extends Vue {
   systemVersion = "";
   version = "";
 
-  getSystemInfo(): void {
-    this.$ipcRenderer.info(VALIDCHANNELS.info, INFO.appVersion).then((res) => {
-      this.version = res.args;
-    });
-
-    this.$ipcRenderer.info(VALIDCHANNELS.info, INFO.versions).then((res) => {
-      this.versions = res.args;
-    });
-
-    this.$ipcRenderer.info(VALIDCHANNELS.info, INFO.platform).then((res) => {
-      this.platform = res.args;
-    });
-
-    this.$ipcRenderer.info(VALIDCHANNELS.info, INFO.systemType).then((res) => {
-      this.systemType = res.args;
-    });
-
-    this.$ipcRenderer.info(VALIDCHANNELS.info, INFO.arch).then((res) => {
-      this.arch = res.args;
-    });
-
-    this.$ipcRenderer
-      .info(VALIDCHANNELS.info, INFO.systemVersion)
-      .then((res) => {
-        this.systemVersion = res.args;
-      });
+  private async getSystemInfo() {
+    const info = await window.variables.get(VARIABLE.info);
+    this.versions = info.versions;
+    this.platform = info.platform;
+    this.systemType = info.systemType;
+    this.arch = info.arch;
+    this.systemVersion = info.systemVersion;
+    this.version = info.appVersion;
   }
 }
 </script>

@@ -7,4 +7,8 @@ export enum MODELS {
    * 打开拾色器窗口
    */
   openColorPicker = "openColorPicker",
+  /**
+   * 变量
+   */
+  variables = "variables",
 }
