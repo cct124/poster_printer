@@ -23,7 +23,7 @@ export class Variable {
    * @param key
    * @returns
    */
-  get(key: VARIABLE, ...args: any[]) {
+  get(key: VARIABLE, ...args: any[]) {    
     if (!this.has(key)) return undefined;
     const value = this.variable.get(key);
     if (isFunction(value)) return value(...args);

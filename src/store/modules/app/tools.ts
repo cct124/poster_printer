@@ -6,7 +6,7 @@ const tools: AppStore.Tool[] = [
     id: 1,
     name: "移动工具",
     icon: "move",
-    active: false,
+    active: true,
   },
   {
     id: 2,

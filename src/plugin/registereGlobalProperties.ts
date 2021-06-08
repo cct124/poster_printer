@@ -7,7 +7,7 @@ import { session, local } from "@/utils/storage";
 export function registereGlobalProperties(app: App<Element>): void {
   app.config.globalProperties = {
     $ipcRenderer: window.ipcRenderer,
-    $variable: window.variables,
+    $variables: window.variables,
     $openColorPicker: window.openColorPicker,
     $static: __static,
     $session: session,

@@ -30,7 +30,11 @@ export default class Welcome extends Vue {
    * 应用名称
    */
   appName = APP.name;
-  versions = {};
+  versions = {
+    chrome: "",
+    node: "",
+    electron: "",
+  };
   platform = "";
   systemType = "";
   arch = " ";

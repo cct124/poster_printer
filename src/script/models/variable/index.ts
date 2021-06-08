@@ -16,12 +16,16 @@ export default function () {
     };
   });
 
+  variable.reg(VARIABLE.canvas, 0);
+
   ipcMain.on(VALIDCHANNELS.variableGet, (event, key: VARIABLE, ...args) => {
-    event.reply(VALIDCHANNELS.variableReply, variable.get(key, args));
+    const value = variable.get(key, ...args);
+    event.reply(VALIDCHANNELS.variableReply, value);
   });
 
   ipcMain.on(VALIDCHANNELS.variableReg, (event, key: VARIABLE, value: any) => {
-    event.reply(VALIDCHANNELS.variableReply, variable.reg(key, value));
+    variable.reg(key, value);
+    event.reply(VALIDCHANNELS.variableReply, variable.get(key));
   });
 
   ipcMain.on(VALIDCHANNELS.variableHas, (event, key: VARIABLE) => {
@@ -29,7 +33,8 @@ export default function () {
   });
 
   ipcMain.on(VALIDCHANNELS.variableSet, (event, key: VARIABLE, value: any) => {
-    event.reply(VALIDCHANNELS.variableReply, variable.set(key, value));
+    variable.set(key, value);
+    event.reply(VALIDCHANNELS.variableReply, variable.get(key));
   });
 
   ipcMain.on(VALIDCHANNELS.variableDelete, (event, key: VARIABLE) => {

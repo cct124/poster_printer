@@ -2,7 +2,7 @@ import router from "@/router";
 import { ROUTER } from "@/router/config";
 import { TabsConctrol } from "@/store/config";
 import { AppStore } from "@/types/store/app";
-import { Storage } from "@/script/config/storage";
+import { VARIABLE } from "@/script/config/variable";
 
 export const tabsConctrol = {
   state: {
@@ -11,10 +11,10 @@ export const tabsConctrol = {
     activeCanvasHistory: new Set(),
   },
   mutations: {
-    [TabsConctrol.createCanvas](
+    async [TabsConctrol.createCanvas](
       state: AppStore.State,
       payload: AppStore.CreateCanvas
-    ): void {
+    ): Promise<void> {
       const index = state.canvas.length;
       state.canvas.push({
         id: index,
@@ -23,7 +23,11 @@ export const tabsConctrol = {
         active: false,
         meta: payload,
       });
-      
+
+      const canvas = await window.variables.get(VARIABLE.canvas);
+      const num = canvas || 0;
+      await window.variables.set(VARIABLE.canvas, num + 1);
+
       // eslint-disable-next-line
       (this as any).commit(TabsConctrol.tabsActiveChange, index);
 
@@ -37,7 +41,10 @@ export const tabsConctrol = {
         tab.active = tab.id === id;
       });
     },
-    [TabsConctrol.destroyCanvas](state: AppStore.State, id: number): void {
+    async [TabsConctrol.destroyCanvas](
+      state: AppStore.State,
+      id: number
+    ): Promise<void> {
       const index = state.canvas.findIndex((item) => item.id === id);
       const destroyCanvas = state.canvas.splice(index, 1);
       state.destroyCanvas.push(destroyCanvas[0]);
@@ -45,6 +52,11 @@ export const tabsConctrol = {
         state.activeCanvasHistory.delete(id);
       const history = [...state.activeCanvasHistory];
       const historyId = history[history.length - 1];
+
+      const canvas = await window.variables.get(VARIABLE.canvas);
+      const num = canvas || 0;
+      await window.variables.set(VARIABLE.canvas, num - 1);
+
       if (historyId !== undefined) {
         // eslint-disable-next-line
         (this as any).commit(TabsConctrol.tabsActiveChange, historyId);

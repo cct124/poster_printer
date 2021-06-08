@@ -62,6 +62,7 @@ import { Options, Vue } from "vue-class-component";
 import { PrSelect, PrColorPicker } from "@/components/Form";
 import store from "@/store";
 import { VALIDCHANNELS } from "@/script/config/ipcChannels";
+import { VARIABLE } from "@/script/config/variable";
 
 @Options({
   components: {
@@ -70,13 +71,18 @@ import { VALIDCHANNELS } from "@/script/config/ipcChannels";
   },
 })
 export default class CreateCanvas extends Vue {
-  created(): void {
+  async created(): Promise<void> {
     document.title = "创建画布";
+
+    this.length = await this.$variables.get(VARIABLE.canvas);
+    this.titleChange("");
   }
 
   mounted(): void {
     this.title = this.defaultCanvasName();
   }
+
+  private length = 0;
 
   private title = "";
   private width = 300;
@@ -116,7 +122,7 @@ export default class CreateCanvas extends Vue {
   }
 
   private defaultCanvasName() {
-    return `新建画布 ${this.canvas.length + 1}`;
+    return `新建画布 ${this.length + 1}`;
   }
 
   private titleChange(v: string) {
