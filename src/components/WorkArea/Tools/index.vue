@@ -31,7 +31,7 @@ export default class Tools extends Vue {
 <style lang="scss" scoped>
 .tools {
   width: $tools-width;
-  min-height: calc(100vh - #{$frame-item-height});
+  min-height: calc(100vh - #{$frame-item-height} - #{$frame-margin-bottom});
   background-color: $tools-background-color;
 
   .tool {

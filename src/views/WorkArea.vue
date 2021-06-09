@@ -3,7 +3,12 @@
     <Tools />
     <div class="work-area grow-1">
       <Tabs />
-      <Canvas v-for="item in canvas" :key="item.id" v-show="item.active" />
+      <Canvas
+        v-for="item in canvas"
+        :meta="item.meta"
+        :key="item.id"
+        v-show="item.active"
+      />
     </div>
   </div>
 </template>
@@ -33,6 +38,8 @@ export default class WorkArea extends Vue {
   }
 }
 .work-area {
-  min-height: calc(100vh - #{$frame-item-height} - #{$tabs-height});
+  min-height: calc(
+    100vh - #{$frame-item-height} - #{$tabs-height} - #{$frame-margin-bottom}
+  );
 }
 </style>

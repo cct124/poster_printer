@@ -26,6 +26,7 @@ export default class Frame extends Vue {}
 .frame {
   background: $frame-background;
   -webkit-app-region: drag;
+  margin-bottom: $frame-margin-bottom;
 
   .logo {
     width: $frame-item-height;
