@@ -3,7 +3,7 @@
     <Tools />
     <div class="work-area grow-1">
       <Tabs />
-      <Canvas
+      <Container
         v-for="item in canvas"
         :meta="item.meta"
         :key="item.id"
@@ -16,13 +16,13 @@
 <script lang="ts">
 import { AppStore } from "@/types/store/app";
 import { Options, Vue } from "vue-class-component";
-import { Tabs, Canvas, Tools } from "@/components/WorkArea";
+import { Tabs, Container, Tools } from "@/components/WorkArea";
 import store from "@/store";
 
 @Options({
   components: {
     Tabs,
-    Canvas,
+    Container,
     Tools,
   },
 })

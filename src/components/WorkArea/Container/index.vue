@@ -1,6 +1,6 @@
 <template>
-  <div class="canvas" ref="canvas">
-    <div class="group" ref="group"></div>
+  <div class="container hidden" ref="container">
+    <div class="group inline-block" ref="group"></div>
   </div>
 </template>
 
@@ -8,9 +8,10 @@
 import { AppStore } from "@/types/store/app";
 import { Options, Vue, prop } from "vue-class-component";
 import CanvasClass from "@/plugin/canvas/Canvas";
+import ConctrolMatrix from "@/utils/conctrolMatrix";
 
 @Options({})
-export default class Canvas extends Vue.with(
+export default class Container extends Vue.with(
   class {
     meta = prop<AppStore.CreateCanvas>({ type: Object });
   }
@@ -18,6 +19,7 @@ export default class Canvas extends Vue.with(
   private value = "";
 
   private canvas: CanvasClass | null = null;
+  private conctrolMatrix: ConctrolMatrix | null = null;
 
   created(): void {
     // console.log(this.meta);
@@ -41,11 +43,18 @@ export default class Canvas extends Vue.with(
     });
 
     (this.$refs.group as HTMLElement).appendChild(this.canvas.canvasElement);
+
+    this.conctrolMatrix = new ConctrolMatrix({
+      container: this.$refs.container as HTMLElement,
+      targer: this.$refs.group as HTMLElement,
+    });
+
+    this.conctrolMatrix.center();
   }
 }
 </script>
 <style lang="scss" scoped>
-.canvas {
+.container {
   height: calc(100% - #{$tabs-height});
 }
 </style>
