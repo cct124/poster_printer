@@ -17,7 +17,7 @@ export function throttler(
   fn: (...args: any[]) => void,
   delay: number
 ): () => void {
-  let resizeTimeout: any;
+  let resizeTimeout: NodeJS.Timeout | null;
   return function resizeThrottler(this: any, ...args: any[]) {
     // ignore resize events as long as an actualResizeHandler execution is in the queue
     if (!resizeTimeout) {

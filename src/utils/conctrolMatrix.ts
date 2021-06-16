@@ -4,15 +4,28 @@ enum EventType {
   keyup = "keyup",
   mousedown = "mousedown",
   mouseup = "mouseup",
+  mouseover = "mouseover",
+}
+
+enum CursorStyle {
+  default = "default",
+  pointer = "pointer",
+}
+
+interface WebkitWheelEvent extends WheelEvent {
+  layerX: number;
+  layerY: number;
 }
 
 export default class ConctrolMatrix {
   private container: HTMLElement;
   private targer: HTMLElement;
   private matrixOrigin = [1, 0, 0, 1, 0, 0];
+  private transformOrigin = [0, 0];
   private keyboard = {
     AltLeft: false,
     mousedown: false,
+    space: false,
   };
   private deviceListener: {
     target: Window | HTMLElement;
@@ -22,7 +35,18 @@ export default class ConctrolMatrix {
     remove?: () => void;
   }[] = [];
   private floatPrecision = 1000;
+  private mouseover = {
+    x: 0,
+    y: 0,
+  };
+
+  private translate = {
+    x: 0,
+    y: 0,
+  };
+
   matrix: number[];
+  origin: number[];
   scaleStep;
 
   constructor({
@@ -59,6 +83,21 @@ export default class ConctrolMatrix {
       ) => this.matrixProxySet(target, p, value, receiver),
     });
 
+    this.center();
+
+    this.origin = new Proxy(this.transformOrigin, {
+      get: (target: number[], p: string | symbol, receiver: number[]) =>
+        this.originProxyGet(target, p, receiver),
+      set: (
+        target: number[],
+        p: string | symbol,
+        value: number,
+        receiver: number[]
+      ) => this.originProxySet(target, p, value, receiver),
+    });
+
+    this.originCenter();
+
     this.setTargerMatrix(this.matrixOrigin);
 
     this.inputDeviceListener();
@@ -72,6 +111,16 @@ export default class ConctrolMatrix {
     const y = this.container.offsetHeight / 2 - this.targer.offsetHeight / 2;
     this.matrix[4] = x;
     this.matrix[5] = y;
+    this.translate.x = this.matrix[4] * this.matrix[0];
+    this.translate.y = this.matrix[5] * this.matrix[3];
+  }
+
+  /**
+   * 设置 target 的中心点
+   */
+  private originCenter() {
+    this.origin[0] = this.targer.offsetWidth / 2;
+    this.origin[1] = this.targer.offsetHeight / 2;
   }
 
   /**
@@ -130,24 +179,84 @@ export default class ConctrolMatrix {
   }
 
   /**
+   *  origin Proxy 的get函数
+   * @param target
+   * @param p
+   * @param receiver
+   * @returns
+   */
+  private originProxyGet(
+    target: number[],
+    p: string | symbol,
+    receiver: number[]
+  ) {
+    return Reflect.get(target, p, receiver);
+  }
+
+  /**
+   *  origin Proxy 的set函数
+   * @param target
+   * @param p
+   * @param value
+   * @param receiver
+   * @returns
+   */
+  private originProxySet(
+    target: number[],
+    p: string | symbol,
+    value: number,
+    receiver: number[]
+  ): boolean {
+    if (parseInt(p as string) > 1)
+      throw new Error("index cannot be greater than 1");
+    const Result = Reflect.set(target, p, this.fp(value), receiver);
+    this.setTargerOrigin(receiver);
+    return Result;
+  }
+
+  /**
+   * 设置 origin 元素的 style 属性上
+   * @param origin
+   */
+  private setTargerOrigin(origin: number[]) {
+    this.targer.style.transformOrigin = `${origin[0]}px ${origin[1]}px`;
+  }
+
+  /**
    * 监听输入设备事件
    */
   private inputDeviceListener() {
     this.listeners(this.container, EventType.wheel, this.mouseWheel);
-    this.listeners(window, EventType.keydown, this.altLeftHandle);
-    this.listeners(window, EventType.keyup, this.altLeftHandle);
+    this.listeners(window, EventType.keydown, this.KeyboardInputHandle);
+    this.listeners(window, EventType.keyup, this.KeyboardInputHandle);
     this.listeners(this.container, EventType.mousedown, this.mousedownHandle);
     this.listeners(this.container, EventType.mouseup, this.mousedownHandle);
+    this.listeners(this.container, EventType.mouseover, this.mouseoverHandle);
 
-    this.deviceListener.forEach((handle) => {
-      handle.target.addEventListener(handle.type, (...args) => {
-        handle.listener.apply(this, args);
-      });
+    for (const iterator of this.deviceListener) {
+      switch (iterator.type) {
+        case EventType.mouseover:
+          iterator.target.addEventListener("mousemove", (...args) => {
+            iterator.listener.apply(this, args);
+          });
+          iterator.remove = () => {
+            iterator.target.removeEventListener("mousemove", iterator.listener);
+          };
+          break;
 
-      handle.remove = () => {
-        handle.target.removeEventListener(handle.type, handle.listener);
-      };
-    });
+        default:
+          iterator.target.addEventListener(iterator.type, (...args) => {
+            iterator.listener.apply(this, args);
+          });
+          iterator.remove = () => {
+            iterator.target.removeEventListener(
+              iterator.type,
+              iterator.listener
+            );
+          };
+          break;
+      }
+    }
   }
 
   /**
@@ -174,20 +283,23 @@ export default class ConctrolMatrix {
   /**
    * 鼠标滚轮事件
    */
-  private mouseWheel(ev: WheelEvent) {
+  private mouseWheel(ev: WebkitWheelEvent) {
     if (this.keyboard.AltLeft) {
+      this.origin[0] = ev.layerX - this.matrix[4];
+      this.origin[1] = ev.layerY - this.matrix[5];
+
       /**
        * 放大
        */
       if (ev.deltaY < 0) {
-        this.matrix[0] += this.matrix[0] * this.scaleStep;
-        this.matrix[3] += this.matrix[3] * this.scaleStep;
+        this.matrix[0] += this.scaleStep;
+        this.matrix[3] += this.scaleStep;
         /**
          * 缩小
          */
       } else {
-        this.matrix[0] -= this.matrix[0] * this.scaleStep;
-        this.matrix[3] -= this.matrix[3] * this.scaleStep;
+        this.matrix[0] -= this.scaleStep;
+        this.matrix[3] -= this.scaleStep;
       }
     }
   }
@@ -197,9 +309,24 @@ export default class ConctrolMatrix {
    * @param ev
    * @returns
    */
-  private altLeftHandle(ev: KeyboardEvent) {
-    if (this.keyboard.AltLeft === (ev.type === EventType.keydown)) return;
-    this.keyboard.AltLeft = ev.type === EventType.keydown;
+  private KeyboardInputHandle(ev: KeyboardEvent) {
+    switch (ev.code) {
+      case "AltLeft":
+        if (this.keyboard.AltLeft === (ev.type === EventType.keydown)) return;
+        this.keyboard.AltLeft = ev.type === EventType.keydown;
+        break;
+
+      case "Space":
+        if (this.keyboard.space === (ev.type === EventType.keydown)) return;
+        this.keyboard.space = ev.type === EventType.keydown;
+        this.keyboard.space
+          ? this.cursorContainer(CursorStyle.pointer)
+          : this.cursorContainer(CursorStyle.default);
+        break;
+
+      default:
+        break;
+    }
   }
 
   /**
@@ -208,13 +335,32 @@ export default class ConctrolMatrix {
    * @returns
    */
   private mousedownHandle(ev: MouseEvent) {
-    console.log(ev);
-    
-    if (ev.buttons !== 1) return;
+    if (ev.button !== 0) return;
     if (this.keyboard.mousedown === (ev.type === EventType.mousedown)) return;
     this.keyboard.mousedown = ev.type === EventType.mousedown;
+    if (!this.keyboard.mousedown) {
+      this.mouseover.x = this.mouseover.y = 0;
+    }
+  }
 
-    console.log(this.keyboard.mousedown);
+  private mouseoverHandle(ev: MouseEvent) {
+    if (this.keyboard.mousedown && this.keyboard.space) {
+      if (this.mouseover.x !== 0) {
+        const x = this.mouseover.x - ev.x;
+        this.mouseover.x = ev.x;
+        this.matrix[4] -= x;
+      } else {
+        this.mouseover.x = ev.x;
+      }
+
+      if (this.mouseover.y !== 0) {
+        const y = this.mouseover.y - ev.y;
+        this.mouseover.y = ev.y;
+        this.matrix[5] -= y;
+      } else {
+        this.mouseover.y = ev.y;
+      }
+    }
   }
 
   /**
@@ -224,5 +370,9 @@ export default class ConctrolMatrix {
    */
   private fp(val: number) {
     return Math.round(val * this.floatPrecision) / this.floatPrecision;
+  }
+
+  cursorContainer(style: CursorStyle): void {
+    this.container.style.cursor = style;
   }
 }

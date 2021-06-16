@@ -151,6 +151,45 @@ declare global {
     }
   }
 
+  module Layer {
+    interface BackgroundLayer {
+      color: string;
+    }
+
+    interface TextLayer {
+      draw: "fill" | "stroke";
+      text: string;
+      size: number;
+      color: string;
+      translateX: number;
+      translateY: number;
+      width: number;
+      height: number;
+      style: string;
+      weight: number | string;
+      variant: string;
+      align: "start" | "end" | "left" | "right" | "center";
+      baseline:
+        | "top"
+        | " hanging"
+        | " middle"
+        | " alphabetic"
+        | " ideographic"
+        | " bottom";
+      direction: "ltr" | "rtl" | "inherit";
+    }
+
+    interface Constructor {
+      canvas: CanvasClass;
+    }
+
+    interface LayerMeta {
+      index: number;
+      type: LayerType;
+      meta: BackgroundLayer | TextLayer;
+    }
+  }
+
   var __static: string;
 
   interface ObjKey {

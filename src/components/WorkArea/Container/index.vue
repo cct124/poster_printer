@@ -1,6 +1,11 @@
 <template>
-  <div class="container hidden" ref="container">
-    <div class="group inline-block" ref="group"></div>
+  <div class="canvas-container flex">
+    <div class="container hidden" ref="container">
+      <div class="group inline-block" ref="group"></div>
+    </div>
+    <div class="conctrol-window">
+      <LayerContainer :layer="layer" />
+    </div>
   </div>
 </template>
 
@@ -8,6 +13,8 @@
 import { AppStore } from "@/types/store/app";
 import { Options, Vue, prop } from "vue-class-component";
 import CanvasClass from "@/plugin/canvas/Canvas";
+import Drop from "@/plugin/drop/Drop";
+import Layer from "@/plugin/layer/Layer";
 import ConctrolMatrix from "@/utils/conctrolMatrix";
 
 @Options({})
@@ -20,6 +27,7 @@ export default class Container extends Vue.with(
 
   private canvas: CanvasClass | null = null;
   private conctrolMatrix: ConctrolMatrix | null = null;
+  private layer: Layer | null = null;
 
   created(): void {
     // console.log(this.meta);
@@ -34,6 +42,9 @@ export default class Container extends Vue.with(
   }
 
   private init() {
+    const container = this.$refs.container as HTMLElement;
+    const targer = this.$refs.group as HTMLElement;
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const meta = this.meta!;
     this.canvas = new CanvasClass({
@@ -45,16 +56,29 @@ export default class Container extends Vue.with(
     (this.$refs.group as HTMLElement).appendChild(this.canvas.canvasElement);
 
     this.conctrolMatrix = new ConctrolMatrix({
-      container: this.$refs.container as HTMLElement,
-      targer: this.$refs.group as HTMLElement,
+      container,
+      targer,
     });
 
-    this.conctrolMatrix.center();
+    this.layer = new Layer({ canvas: this.canvas });
+
+    this.layer.createBackground(meta.backgroundColor);
+
+    new Drop({ container });
   }
 }
 </script>
 <style lang="scss" scoped>
-.container {
+.canvas-container {
   height: calc(100% - #{$tabs-height});
+  .container {
+    height: 100%;
+    flex-grow: 1;
+  }
+
+  .conctrol-window {
+    width: $conctrol-window-width;
+    background-color: $frame-background;
+  }
 }
 </style>
