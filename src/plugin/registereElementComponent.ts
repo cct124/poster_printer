@@ -5,10 +5,11 @@ import {
   ElInput,
   ElOption,
   ElSelect,
+  ElIcon,
 } from "element-plus";
 // import "@/styles/element-variables.scss";
 
-const elements = [ElInput, ElSelect, ElOption, ElColorPicker, ElButton];
+const elements = [ElInput, ElSelect, ElOption, ElColorPicker, ElButton, ElIcon];
 
 /**
  * 注册Element组件

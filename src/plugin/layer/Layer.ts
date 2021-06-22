@@ -23,6 +23,7 @@ export default class Layer {
     this.index++;
 
     this.layers.push({
+      name: "背景",
       index: this.index,
       type: LayerType.background,
       meta: {

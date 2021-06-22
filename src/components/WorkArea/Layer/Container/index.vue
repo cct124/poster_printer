@@ -2,7 +2,9 @@
   <div class="layer-container">
     <div class="title"><p class="ft-bs">图层</p></div>
     <div class="layers">
-      <div class="layer" v-for="layer in layers" :key="layer"></div>
+      <div class="layer" v-for="layer in layers" :key="layer">
+        <i class="el-icon-view"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +34,11 @@ export default class LayerContainer extends Vue.with(
 
     p {
       margin: 0;
+    }
+  }
+
+  .layers {
+    .layer {
     }
   }
 }

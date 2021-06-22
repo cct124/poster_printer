@@ -184,6 +184,7 @@ declare global {
     }
 
     interface LayerMeta {
+      name: string,
       index: number;
       type: LayerType;
       meta: BackgroundLayer | TextLayer;
