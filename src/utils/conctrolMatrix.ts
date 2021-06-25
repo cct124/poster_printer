@@ -34,7 +34,7 @@ export default class ConctrolMatrix {
     listener: (ev: any) => void;
     remove?: () => void;
   }[] = [];
-  private floatPrecision = 1000;
+  private floatPrecision = 100;
   private mouseover = {
     x: 0,
     y: 0,
@@ -285,8 +285,17 @@ export default class ConctrolMatrix {
    */
   private mouseWheel(ev: WebkitWheelEvent) {
     if (this.keyboard.AltLeft) {
-      this.origin[0] = ev.layerX - this.matrix[4];
-      this.origin[1] = ev.layerY - this.matrix[5];
+      this.origin[0] = this.fp(ev.layerX - this.translate.x) / this.matrix[0];
+      this.origin[1] = this.fp(ev.layerY - this.translate.y) / this.matrix[3];
+
+      const ratioX = this.fp(
+        this.fp(ev.layerX - this.translate.x) /
+          (this.matrix[0] * this.targer.offsetWidth)
+      );
+      const ratioY = this.fp(
+        this.fp(ev.layerY - this.translate.y) /
+          (this.matrix[3] * this.targer.offsetHeight)
+      );
 
       /**
        * 放大
@@ -301,6 +310,16 @@ export default class ConctrolMatrix {
         this.matrix[0] -= this.scaleStep;
         this.matrix[3] -= this.scaleStep;
       }
+
+      this.matrix[4] = ev.layerX - ratioX * this.targer.offsetWidth;
+      this.matrix[5] = ev.layerY - ratioY * this.targer.offsetHeight;
+
+      this.translate.x = this.fp(
+        ev.layerX - ratioX * (this.matrix[0] * this.targer.offsetWidth)
+      );
+      this.translate.y = this.fp(
+        ev.layerY - ratioY * (this.matrix[3] * this.targer.offsetHeight)
+      );
     }
   }
 
@@ -364,7 +383,7 @@ export default class ConctrolMatrix {
   }
 
   /**
-   * 保留三位小数
+   * 保留两位小数
    * @param val
    * @returns
    */

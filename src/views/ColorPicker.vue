@@ -298,9 +298,11 @@ export default class ColorPicker extends Vue {
    */
   private hueStripChange(y: number) {
     if (this.ctxStrip && this.ctxBlock) {
-      const data = this.ctxStrip.getImageData(1, y, 1, 1).data;
+      const h = y - 1 < 0 ? 0 : y - 1;
 
-      this.stripConctrolStyle.top = y - this.canvasStripSize / 2;
+      const data = this.ctxStrip.getImageData(1, h, 1, 1).data;
+
+      this.stripConctrolStyle.top = h - this.canvasStripSize / 2;
 
       this.rgbaColor = `rgba( ${data[0]}, ${data[1]}, ${data[2]}, 1 )`;
 
