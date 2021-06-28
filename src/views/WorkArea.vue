@@ -6,6 +6,7 @@
       <Container
         v-for="item in canvas"
         :meta="item.meta"
+        :id="item.id"
         :key="item.id"
         v-show="item.active"
       />

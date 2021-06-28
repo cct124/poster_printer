@@ -58,6 +58,9 @@ interface IpcRenderer {
   info: (channel: VALIDCHANNELS, id: INFO) => Promise<IPC.PromiseIpcInfo>;
 }
 
+/**
+ * 获取定义在main进程的变量
+ */
 interface Variables {
   get: (key: VARIABLE, ...args: any[]) => Promise<any>;
   set: (key: VARIABLE, value: any) => Promise<any>;
@@ -70,6 +73,9 @@ declare global {
   interface Window {
     ipcRenderer: IpcRenderer;
     openColorPicker: (hex?: string, desc?: string) => Promise<string>;
+    /**
+     * 获取定义在main进程的变量
+     */
     variables: Variables;
   }
 
@@ -184,7 +190,7 @@ declare global {
     }
 
     interface LayerMeta {
-      name: string,
+      name: string;
       index: number;
       type: LayerType;
       meta: BackgroundLayer | TextLayer;

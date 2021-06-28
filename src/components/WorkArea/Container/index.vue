@@ -1,7 +1,14 @@
 <template>
   <div class="canvas-container flex">
-    <div class="container hidden" ref="container">
-      <div class="group inline-block" ref="group"></div>
+    <div class="grow-1">
+      <div class="container hidden" :ref="`container_${id}`">
+        <div class="group inline-block" :ref="`group_${id}`"></div>
+      </div>
+      <div class="canvas-info">
+        <div class="scale flex-center ft-essm">
+          {{ canvasScale }}
+        </div>
+      </div>
     </div>
     <div class="conctrol-window">
       <LayerContainer :layer="layer" />
@@ -10,6 +17,7 @@
 </template>
 
 <script lang="ts">
+// import { ref, Ref } from "vue";
 import { AppStore } from "@/types/store/app";
 import { Options, Vue, prop } from "vue-class-component";
 import CanvasClass from "@/plugin/canvas/Canvas";
@@ -21,17 +29,13 @@ import ConctrolMatrix from "@/utils/conctrolMatrix";
 export default class Container extends Vue.with(
   class {
     meta = prop<AppStore.CreateCanvas>({ type: Object });
+    id = prop<number>({ type: Number });
   }
 ) {
-  private value = "";
-
   private canvas: CanvasClass | null = null;
   private conctrolMatrix: ConctrolMatrix | null = null;
   private layer: Layer | null = null;
-
-  created(): void {
-    // console.log(this.meta);
-  }
+  private canvasScale = "100%";
 
   mounted(): void {
     this.init();
@@ -42,8 +46,8 @@ export default class Container extends Vue.with(
   }
 
   private init() {
-    const container = this.$refs.container as HTMLElement;
-    const targer = this.$refs.group as HTMLElement;
+    const container = this.$refs[`container_${this.id}`] as HTMLElement;
+    const targer = this.$refs[`group_${this.id}`] as HTMLElement;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const meta = this.meta!;
@@ -53,11 +57,15 @@ export default class Container extends Vue.with(
       background: meta.backgroundColor,
     });
 
-    (this.$refs.group as HTMLElement).appendChild(this.canvas.canvasElement);
+    targer.appendChild(this.canvas.canvasElement);
 
     this.conctrolMatrix = new ConctrolMatrix({
       container,
       targer,
+      matrixChange: (matrix) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.canvasScale = this.conctrolMatrix!.fp(matrix[0] * 100) + "%";
+      },
     });
 
     this.layer = new Layer({ canvas: this.canvas });
@@ -72,8 +80,18 @@ export default class Container extends Vue.with(
 .canvas-container {
   height: calc(100% - #{$tabs-height});
   .container {
-    height: 100%;
-    flex-grow: 1;
+    height: calc(100% - #{$canvas-info-height});
+  }
+
+  .canvas-info {
+    height: $canvas-info-height;
+    background-color: $frame-background;
+
+    .scale {
+      width: 50px;
+      height: $canvas-info-height;
+      background-color: $canvas-scale-background;
+    }
   }
 
   .conctrol-window {

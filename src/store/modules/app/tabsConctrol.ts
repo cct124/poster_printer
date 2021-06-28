@@ -24,12 +24,12 @@ export const tabsConctrol = {
         meta: payload,
       });
 
+      // eslint-disable-next-line
+      (this as any).commit(TabsConctrol.tabsActiveChange, index);
+
       const canvas = await window.variables.get(VARIABLE.canvas);
       const num = canvas || 0;
       await window.variables.set(VARIABLE.canvas, num + 1);
-
-      // eslint-disable-next-line
-      (this as any).commit(TabsConctrol.tabsActiveChange, index);
 
       if (index === 0) router.push({ name: ROUTER.workArea });
     },

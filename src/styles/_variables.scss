@@ -53,6 +53,7 @@ $padding-lg: $padding-base * 6;
 $padding-xl: $padding-base * 8;
 
 // Font
+$font-size-essm: 10px;
 $font-size-esm: 12px;
 $font-size-sm: 13px;
 $font-size-bs: 14px;
@@ -124,6 +125,10 @@ $background-hover-color: #cdcdcd;
 
 // conctrol window
 $conctrol-window-width: 250px;
+
+// canvas-info
+$canvas-info-height: 20px;
+$canvas-scale-background: #474747;
 
 // var
 body {

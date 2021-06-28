@@ -48,11 +48,13 @@ export default class ConctrolMatrix {
   matrix: number[];
   origin: number[];
   scaleStep;
+  matrixChange;
 
   constructor({
     container,
     targer,
     scaleStep = 0.15,
+    matrixChange,
   }: {
     /**
      * 容器
@@ -67,10 +69,15 @@ export default class ConctrolMatrix {
      * 缩放系数
      */
     scaleStep?: number;
+    /**
+     * matrix 变化时调用此函数
+     */
+    matrixChange?: (matrix: number[]) => void;
   }) {
     this.container = container;
     this.targer = targer;
     this.scaleStep = scaleStep;
+    this.matrixChange = matrixChange;
 
     this.matrix = new Proxy(this.matrixOrigin, {
       get: (target: number[], p: string | symbol, receiver: number[]) =>
@@ -320,6 +327,8 @@ export default class ConctrolMatrix {
       this.translate.y = this.fp(
         ev.layerY - ratioY * (this.matrix[3] * this.targer.offsetHeight)
       );
+
+      if (this.matrixChange) this.matrixChange(this.matrix);
     }
   }
 
@@ -368,6 +377,7 @@ export default class ConctrolMatrix {
         const x = this.mouseover.x - ev.x;
         this.mouseover.x = ev.x;
         this.matrix[4] -= x;
+        this.translate.x -= x;
       } else {
         this.mouseover.x = ev.x;
       }
@@ -376,9 +386,12 @@ export default class ConctrolMatrix {
         const y = this.mouseover.y - ev.y;
         this.mouseover.y = ev.y;
         this.matrix[5] -= y;
+        this.translate.y -= y;
       } else {
         this.mouseover.y = ev.y;
       }
+
+      if (this.matrixChange) this.matrixChange(this.matrix);
     }
   }
 
@@ -387,7 +400,7 @@ export default class ConctrolMatrix {
    * @param val
    * @returns
    */
-  private fp(val: number) {
+  fp(val: number): number {
     return Math.round(val * this.floatPrecision) / this.floatPrecision;
   }
 
